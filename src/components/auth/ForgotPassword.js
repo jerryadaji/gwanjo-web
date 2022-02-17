@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useUserAuth } from "../../context/UserAuthContext";
-import GoogleButton from "react-google-button";
 import AuthLayout from "../layout/AuthLayout";
 
-const  Login = () => {
+const  ForgotPassword = () => {
 	const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");  
@@ -25,23 +24,11 @@ const  Login = () => {
       setError(err.message)
     }
   }
-  
-  const handleGoogleSignIn = async (e) => {
-    e.preventDefault();
-    setError("");
-    
-    try{
-      await googleSignIn();
-      navigate("/dashboard")
-    }catch(err){
-      setError(err.message)
-    }
-  }
 
   return(
 		<AuthLayout>
 			<div className="p-4 mt-5 box card">
-        <h5 className="mb-4">Log In</h5>
+        <h5 className="mb-4">Forgot Password</h5>
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -52,28 +39,16 @@ const  Login = () => {
               value={email}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control 
-              type="password" 
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-            />
-          </Form.Group>
           <div className="d-grid gap-2">
-            <Button variant="primary" type="submit">Log In</Button>
+            <Button variant="primary" type="submit">Reset Password</Button>
           </div> 
-          <div className="pt-3">
-            <GoogleButton className="w-100" onClick={handleGoogleSignIn} />
-          </div>
-          <p className="mt-4 mb-0"><Link to="/forgot-password">Forgot your password?</Link></p>
         </Form>
       </div>
 			<div className="p-4 box card mt-3 text-center">
-				<p className="mb-0">Don't have an account? <Link to="/signup">Sign Up</Link></p>
+				<p className="mb-0">Remembered your password? <Link to="/login">Log In</Link></p>
 			</div>
 		</AuthLayout>
 	)
 }
 
-export default Login;
+export default ForgotPassword;
