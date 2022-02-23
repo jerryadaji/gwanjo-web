@@ -1,10 +1,14 @@
 import { Container } from "react-bootstrap";
+import MainNavbar from "./MainNavbar"
 
 const  AppLayout = ({children, className}) => {
   return(
-    <Container>
-      <div className={className + " mt-5"}>{children}</div>
-    </Container>
+    <>
+      <MainNavbar/>
+      <Container>
+        <div className={className + " mt-4"}>{children}</div>
+      </Container>
+    </>
 	)
 }
 

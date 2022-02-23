@@ -1,13 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
+import Ad from "./ad/AdCard";
+import AdList from "./ad/AdList";
 import AppLayout from "./layout/AppLayout";
 
 const  Home = () => {
-return(
+  return(
 		<AppLayout>
-      <h1>Home</h1>
-			<p><Link to="/login">Login In</Link></p>
-      <p><Link to="/signup">Sign Up</Link></p>
+      <h5 className="mb-4">Home</h5>
+      <AdList/>
 		</AppLayout>
 	)
 }

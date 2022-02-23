@@ -5,7 +5,11 @@ import {
   signOut,
   onAuthStateChanged,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  sendEmailVerification,
+  updatePasswordx,
+  updatePassword,
+  sendPasswordResetEmail
 } from "firebase/auth"
 import { auth } from "../firebase"
 
@@ -20,6 +24,18 @@ export function UserAuthContextProvider({children}){
 
   function logIn(email, password){
     return signInWithEmailAndPassword(auth, email, password)
+  }
+
+  function passwordResetEmail(email){
+    const actionCodeSettings = {
+      url: process.env.REACT_APP_SERVER_URL + '/login',
+      handleCodeInApp: true
+    };
+    return sendPasswordResetEmail(auth, email, actionCodeSettings)
+  }
+
+  function changePassword(password){
+    return updatePassword(password);
   }
 
   function logOut(){
@@ -40,7 +56,7 @@ export function UserAuthContextProvider({children}){
     }
   }, [])
 
-  return <userAuthContext.Provider value={{user, signUp, logIn, logOut, googleSignIn}}>{children}</userAuthContext.Provider>
+  return <userAuthContext.Provider value={{user, signUp, logIn, logOut, googleSignIn, passwordResetEmail, changePassword}}>{children}</userAuthContext.Provider>
 }
 
 export function useUserAuth(){
