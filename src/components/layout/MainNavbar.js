@@ -1,22 +1,35 @@
-import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
+
+import { Button, Container, Grid, Typography } from '@mui/material';
 
 const MainNavbar = () => {
   let { user } = useUserAuth();
 
   return(
-    <div className="bg-light pt-3 pb-3">
-      <Container>
-        <Row>
-          <Col>
-            <Link to="/" className="mr-1">Home</Link>
-          </Col>
-          <Col className="text-right">          
+    <div className="main-nav-wrapper">
+      <Container maxWidth="lg">
+        <div class="main-nav">
+          <Link to="/" className="mr-1">
+            <Typography 
+              gutterBottom 
+              variant="h4" 
+              component="div"
+              sx={{
+                color: '#44079c',
+                fontWeight: 700,
+                fontSize: '1.75rem',
+                mb: 0
+              }}
+            >
+                gwanjo
+            </Typography>
+          </Link>
+          <div className="text-right">          
             { !user && <AuthButtons /> }
             { user && <UserButtons/> }
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Container>
     </div>
   )
@@ -46,7 +59,7 @@ const UserButtons = ({children, className}) => {
     <>
       <Link to="/dashboard" className="mr-1">Dashboard</Link>
       <Link to="/create-ad" className="mr-1">Create Ad</Link>
-      <Button variant="primary" onClick={ handleLogOut }>Log out</Button> 
+      <Button variant="contained" onClick={ handleLogOut }>Log out</Button> 
     </>
   )
 }

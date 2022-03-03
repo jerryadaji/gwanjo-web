@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Form } from "react-bootstrap";
 import { useUserAuth } from "../../context/UserAuthContext";
 import GoogleButton from "react-google-button";
 import AuthLayout from "../layout/AuthLayout";
 import AuthWrapper from "./AuthWrapper";
+
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 const  Login = () => {
 	const [email, setEmail] = useState("");
@@ -14,7 +20,7 @@ const  Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const { logIn, googleSignIn, user} = useUserAuth();
+  const { logIn, googleSignIn } = useUserAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,36 +49,64 @@ const  Login = () => {
     <AuthWrapper>
       <AuthLayout>
         <div className="p-4 card">
-          <h5 className="mb-4">Log In</h5>
+          <h1>Log In</h1>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control 
-                type="email" 
-                placeholder="Email address"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Control 
-                type="password" 
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              />
-            </Form.Group>
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">Log In</Button>
-            </div> 
+          <form onSubmit={handleSubmit}>
+            <TextField 
+              id="email-address" 
+              type="email" 
+              label="Email address" 
+              variant="outlined" 
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              fullWidth
+              margin="normal"
+            />
+            <TextField 
+              id="password" 
+              type="password" 
+              label="Password" 
+              variant="outlined" 
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              fullWidth
+              margin="normal"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              size="large"
+              sx={{ 
+                backgroundColor: '#44079c',
+                borderRadius: '1.5rem',
+                mt: 3, 
+                mb: 2,
+                textTransform: 'capitalize'
+              }}
+            >
+              Sign In
+            </Button>
             <div className="pt-3">
-              <GoogleButton className="w-100" onClick={handleGoogleSignIn} />
+              <GoogleButton type="light" className="w-100" onClick={handleGoogleSignIn} />
             </div>
-            <p className="mt-4 mb-0"><Link to="/forgot-password">Forgot your password?</Link></p>
-          </Form>
-        </div>
-        <div className="p-4 box card mt-3 text-center">
-          <p className="mb-0">Don't have an account? <Link to="/signup">Sign Up</Link></p>
+            <Grid container sx={{ mt: 3, mb: 2 }}>
+              <Grid item xs>
+                <Link to="/forgot-password" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
         </div>
       </AuthLayout>
     </AuthWrapper>

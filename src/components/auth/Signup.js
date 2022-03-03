@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useUserAuth } from "../../context/UserAuthContext";
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from "../../firebase"
 import GoogleButton from "react-google-button";
 import AuthLayout from "../layout/AuthLayout";
 import AuthWrapper from "./AuthWrapper";
@@ -19,7 +21,13 @@ function Signup() {
     e.preventDefault();
     setError("");
     try{
-      await signUp(email, password);
+      const newUserRef =  await signUp(email, password);
+      
+      await addDoc(collection(db, "users"), {
+        uid: newUserRef.user.uid,
+        email: newUserRef.user.email
+      });
+      
       navigate('/login')
     } catch(err) {
       setError(err.message)
