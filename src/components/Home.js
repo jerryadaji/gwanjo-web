@@ -1,13 +1,23 @@
 import React from "react";
-import { Col, Row } from "react-bootstrap";
-import Ad from "./ad/AdCard";
 import AdList from "./ad/AdList";
 import AppLayout from "./layout/AppLayout";
+
+import { Typography } from '@mui/material';
+
 
 const  Home = () => {
   return(
 		<AppLayout>
-      <h5 className="mb-4">Home</h5>
+      <Typography 
+        gutterBottom 
+        variant="h5" 
+        component="div"
+        sx={{
+          mb: 4
+        }}
+      >
+        Buy anything, from anywhere
+      </Typography>
       <AdList/>
 		</AppLayout>
 	)

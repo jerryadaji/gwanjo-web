@@ -19,3 +19,37 @@ code {
 .text-right{
   text-align: right;
 }
+
+a{
+  color: #333333;
+  text-decoration: none;
+}
+
+a:hover{
+  color: #44079c;
+}
+
+.main-nav{
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-nav-wrapper{
+  background-color: white;
+  box-shadow: 1px 0.1rem 0.1rem rgb(207 209 212 / 60%), 0 0 0.1rem 0 rgb(151 140 254 / 30%);
+  left: 0;
+  position: fixed;
+  padding: 0.25rem 0;
+  right: 0;
+  top: 0;
+  z-index: 10000;
+}
+
+.bg-primary{
+  background-color: #9e0161;
+}
+
+.bg-secondary{
+  background-color: #2c3e4f;
+}

@@ -15,6 +15,7 @@ import { UserAuthContextProvider } from "./context/UserAuthContext"
 import { AdContextProvider } from "./context/AdContext"
 import NewPassword from "./components/auth/NewPassword"
 import CreateAd from "./components/user/CreateAd"
+import Ad from "./components/ad/Ad"
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
           <Route path="dashboard" element={ <ProtectedRoute><Dashboard/></ProtectedRoute> } />
           <Route path="settings" element={ <ProtectedRoute><Settings/></ProtectedRoute> } />
           <Route path="create-ad" element={ <ProtectedRoute><CreateAd/></ProtectedRoute> } />
+
+          <Route path="ad/:adId" element={ <Ad /> } />
           
           <Route path="*" element={<PageNotFound />} />
         </Routes>    

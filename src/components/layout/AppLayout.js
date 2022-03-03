@@ -1,11 +1,16 @@
-import { Container } from "react-bootstrap";
+import { Container } from '@mui/material';
 import MainNavbar from "./MainNavbar"
 
 const  AppLayout = ({children, className}) => {
   return(
     <>
       <MainNavbar/>
-      <Container>
+      <Container 
+        maxWidth="lg" 
+        sx={{
+          marginTop: '5rem',
+        }}
+      >
         <div className={className + " mt-4"}>{children}</div>
       </Container>
     </>
