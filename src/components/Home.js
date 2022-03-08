@@ -2,7 +2,7 @@ import React from "react";
 import AdList from "./ad/AdList";
 import AppLayout from "./layout/AppLayout";
 
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 
 const  Home = () => {
@@ -18,7 +18,17 @@ const  Home = () => {
       >
         Buy anything, from anywhere
       </Typography>
-      <AdList/>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={2}>
+          Sidebar
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <AdList/>
+        </Grid>
+        <Grid item xs={12} md={2}>
+          Ads
+        </Grid>
+      </Grid>
 		</AppLayout>
 	)
 }

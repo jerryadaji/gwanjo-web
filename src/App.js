@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom"
-import { Container, Row, Col } from "react-bootstrap"
 
 import Home from "./components/Home"
 import Signup from "./components/auth/Signup"

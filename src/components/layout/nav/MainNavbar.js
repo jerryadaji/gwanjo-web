@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
-import { useUserAuth } from "../../context/UserAuthContext";
+import { useUserAuth } from "../../../context/UserAuthContext";
 
 import { Button, Container, Grid, Typography } from '@mui/material';
+import AccountMenu from "./AccountMenu";
+
+
 
 const MainNavbar = () => {
   let { user } = useUserAuth();
@@ -25,9 +28,18 @@ const MainNavbar = () => {
                 gwanjo
             </Typography>
           </Link>
-          <div className="text-right">          
+          <div className="text-right">      
             { !user && <AuthButtons /> }
-            { user && <UserButtons/> }
+            <Button 
+              href="/create-ad" 
+              variant="contained"
+              sx={{ 
+                backgroundColor: '#44079c',
+                borderRadius: '1.5rem',
+                textTransform: 'capitalize'
+              }}
+            >Sell</Button> 
+            { user && <AccountMenu/> }
           </div>
         </div>
       </Container>
@@ -39,27 +51,7 @@ const AuthButtons = ({children, className}) => {
   return (
     <>
       <Link to="/login" className="mr-1">Login In</Link>
-      <Link to="/signup">Sign Up</Link>
-    </>
-  )
-}
-
-const UserButtons = ({children, className}) => {
-  let { logOut } = useUserAuth();
-
-  const handleLogOut = async () =>{
-    try{
-      await logOut();
-    }catch(err){
-      console.log(err);
-    }
-  }
-
-  return (
-    <>
-      <Link to="/dashboard" className="mr-1">Dashboard</Link>
-      <Link to="/create-ad" className="mr-1">Create Ad</Link>
-      <Button variant="contained" onClick={ handleLogOut }>Log out</Button> 
+      <Link to="/signup" className="mr-1">Sign Up</Link>
     </>
   )
 }

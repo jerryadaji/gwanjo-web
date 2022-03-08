@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import MainNavbar from "./MainNavbar";
+import MainNavbar from "./nav/MainNavbar";
 
 const  AuthLayout = ({children, className}) => {
   return(

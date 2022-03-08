@@ -38,19 +38,36 @@ const Ad = ({data, isMine}) => {
               image={"https://picsum.photos/seed/"+data.id+"/300/150"}
               alt="Card cap"
             />
-            <CardContent>
+            <CardContent
+              sx={{
+                p: '0.8rem',
+              }}
+            >
               <Typography 
                 gutterBottom 
-                variant="h6" 
-                component="div"
+                variant="body2" 
+                component="p"
                 sx={{
-                  fontSize: '1rem',
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis"
                 }}
-              >
-                  {data.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">₦25,000</Typography>
+              >{data.title}</Typography>
+              <Typography 
+                variant="h6" 
+                color="black"
+                sx={{
+                }}
+              >₦25,000</Typography>
               {poster && <div><Link to="/edit-ad/">Edit</Link></div>}
+              <Typography 
+                variant="caption" 
+                color="text.secondary"
+                component="p"
+                sx={{
+                  mt: 1
+                }}
+              >Abuja</Typography>
             </CardContent>
           </CardActionArea>
         </Link>
