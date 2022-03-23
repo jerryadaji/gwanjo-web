@@ -1,26 +1,18 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useUserAuth } from "../../../context/UserAuthContext";
 
-import { Button, MenuList } from '@mui/material';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+import { 
+  Divider, IconButton, Link, Menu, MenuItem, MenuList 
+} from '@mui/material';
 
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+import { AccountCircle } from '@mui/icons-material';
 
 
-const AccountMenu = ({children, className}) => {
+const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   let { logOut } = useUserAuth();
+  
   const handleLogOut = async () =>{
     try{
       await logOut();
@@ -47,9 +39,7 @@ const AccountMenu = ({children, className}) => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        <Avatar 
-          sx={{ fontSize: "1rem", width: 34, height: 34 }}
-        >GW</Avatar>
+        <AccountCircle sx={{ fontSize: "1rem", width: 38, height: 38 }} />
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -86,12 +76,14 @@ const AccountMenu = ({children, className}) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuList dense>
+        <MenuList dense sx={{p: 0}}>
           <MenuItem>
-            <Link to="/dashboard" className="mr-1">Dashboard</Link>
+            <Link href="/dashboard" color="text.primary">Dashboard</Link>
           </MenuItem>
           <Divider />
-          <MenuItem><Link to="/settings" className="mr-1">Settings</Link></MenuItem>
+          <MenuItem>
+            <Link href="/settings" color="text.primary">Settings</Link>
+          </MenuItem>
           <MenuItem onClick={ handleLogOut }>Logout</MenuItem>
         </MenuList>
       </Menu>

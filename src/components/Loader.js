@@ -7,7 +7,8 @@ return(
       alignItems: "center",
       display: "flex", 
       height: "50vh",
-      justifyContent: "center" 
+      justifyContent: "center",
+      opacity: "0.15"
     }}
   >
     <CircularProgress color="inherit" />

@@ -1,10 +1,7 @@
-import { Link } from "react-router-dom";
 import { useUserAuth } from "../../../context/UserAuthContext";
 
-import { Button, Container, Grid, Typography } from '@mui/material';
+import { Button, Container, Link, Typography } from '@mui/material';
 import AccountMenu from "./AccountMenu";
-
-
 
 const MainNavbar = () => {
   let { user } = useUserAuth();
@@ -12,14 +9,14 @@ const MainNavbar = () => {
   return(
     <div className="main-nav-wrapper">
       <Container maxWidth="lg">
-        <div class="main-nav">
-          <Link to="/" className="mr-1">
+        <div className="main-nav">
+          <Link href="/" sx={{mr: 3, textDecoration: "none"}}>
             <Typography 
               gutterBottom 
               variant="h4" 
               component="div"
               sx={{
-                color: '#44079c',
+                color: 'primary',
                 fontWeight: 700,
                 fontSize: '1.75rem',
                 mb: 0
@@ -32,9 +29,8 @@ const MainNavbar = () => {
             { !user && <AuthButtons /> }
             <Button 
               href="/create-ad" 
-              variant="contained"
+              variant="outlined"
               sx={{ 
-                backgroundColor: '#44079c',
                 borderRadius: '1.5rem',
                 textTransform: 'capitalize'
               }}
@@ -50,8 +46,8 @@ const MainNavbar = () => {
 const AuthButtons = ({children, className}) => {
   return (
     <>
-      <Link to="/login" className="mr-1">Login In</Link>
-      <Link to="/signup" className="mr-1">Sign Up</Link>
+      <Link href="/login" sx={{mr: 3, textDecoration: "none"}}>Login In</Link>
+      <Link href="/signup" sx={{mr: 3, textDecoration: "none"}}>Sign Up</Link>
     </>
   )
 }

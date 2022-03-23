@@ -5,6 +5,12 @@ import { db } from "../../firebase";
 import { useAd } from "../../context/AdContext";
 import AppLayout from "../layout/AppLayout";
 import PageNotFound from "../PageNotFound";
+import Gallery from "./page/gallery/Gallery";
+import { Grid } from "@mui/material";
+import AdDescription from "./page/AdDescription";
+import AdInfo from "./page/AdInfo";
+import PosterInfo from "./page/PosterInfo";
+
 
 const  Ad = () => {
   const [ poster, setPoster ]= useState("")
@@ -20,7 +26,8 @@ const  Ad = () => {
     const getAd = async () =>{
       const docRef = doc(db, "ads", adId);
       const docSnap = await getDoc(docRef);
-      docSnap.exists() ? setAd(docSnap.data()) : setAd(null)
+      docSnap.exists() ? setAd({id: docSnap.id, ...docSnap.data()}) : setAd(null)
+      console.log(ad)
     }
 
     getAd()
@@ -45,11 +52,43 @@ const  Ad = () => {
 
     getPoster()
 
+    const images = [
+      {id: 1, url: "https://picsum.photos/seed/1/800/400"},
+      {id: 2, url: "https://picsum.photos/seed/2/800/400"},
+      {id: 3, url: "https://picsum.photos/seed/3/800/400"},
+      {id: 4, url: "https://picsum.photos/seed/4/800/400"},
+      {id: 5, url: "https://picsum.photos/seed/5/800/400"},
+      {id: 6, url: "https://picsum.photos/seed/6/800/400"},
+      {id: 7, url: "https://picsum.photos/seed/7/800/400"},
+      {id: 8, url: "https://picsum.photos/seed/8/800/400"},
+      {id: 9, url: "https://picsum.photos/seed/9/800/400"},
+      {id: 10, url: "https://picsum.photos/seed/10/800/400"},
+    ];
+
     return(
       <AppLayout>
-        <h5 className="mb-4">{ad && ad.title}</h5>
-        <p>{ad && ad.description}</p>
-        {poster && <div>Posted by {poster.email}</div>}
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={8}>
+            <Gallery images={images}/>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <AdInfo title={ad.title} poster={poster}/>
+            <PosterInfo poster={poster}/>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={8}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={10} lg={1}></Grid>
+              <Grid item xs={12} md={10} lg={11}>
+                <AdDescription description={ad.description}/>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        
       </AppLayout>
     )
   }

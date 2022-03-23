@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAd } from "../../context/AdContext";
 
@@ -6,7 +6,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions, Grid } from '@mui/material';
+import { CardActionArea, Grid } from '@mui/material';
+
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 const Ad = ({data, isMine}) => {
   const [poster, setPoster]= useState("")
@@ -48,26 +50,30 @@ const Ad = ({data, isMine}) => {
                 variant="body2" 
                 component="p"
                 sx={{
+                  color: "text.primary",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis"
                 }}
               >{data.title}</Typography>
               <Typography 
-                variant="h6" 
-                color="black"
-                sx={{
-                }}
+                variant="subtitle2" 
+                color="primary"
               >₦25,000</Typography>
               {poster && <div><Link to="/edit-ad/">Edit</Link></div>}
               <Typography 
                 variant="caption" 
                 color="text.secondary"
-                component="p"
+                component="div"
                 sx={{
+                  alignItems: "center",
+                  display: "flex",
                   mt: 1
                 }}
-              >Abuja</Typography>
+              >
+                <LocationOnOutlinedIcon fontSize="inherit"/>
+                Abuja
+              </Typography>
             </CardContent>
           </CardActionArea>
         </Link>

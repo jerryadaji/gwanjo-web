@@ -1,9 +1,18 @@
 import { useState } from "react";
-import { Alert, Button, Form, Card } from "react-bootstrap"
+import { Alert, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
+
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from "../../firebase"
-import AppLayout from "../layout/AppLayout"
 import { useUserAuth } from "../../context/UserAuthContext";
+
+
+
+
+import AppLayout from "../layout/AppLayout"
+import RichTextEditor from "../richtextEditor/RichTextEditor";
+import { ButtonBase } from "@mui/material";
+import ImageUploader from "../imageUploader/ImageUploader";
+
 
 const CreateAd = () => {
   const [title, setTitle] = useState("");
@@ -29,34 +38,71 @@ const CreateAd = () => {
     }
   }
 
+  const updateDescription = getDescription => setDescription(getDescription)
+
   return(
     <AppLayout>
-      <Card className="p-4">
-        <h5 className="mb-4">Create Ad</h5>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control 
-                type="text" 
-                placeholder="Title"
-                onChange={(e) => setTitle(e.target.value)}
-                value={title}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Control 
-                as="textarea" 
-                rows={5} 
-                placeholder="Description"
-                onChange={(e) => setDescription(e.target.value)}
-                value={description}
-              />
-            </Form.Group>
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">Post Ad</Button>
-            </div> 
-          </Form>
-      </Card>
+      <Container 
+        disableGutters
+        maxWidth="sm" 
+      >
+        <Paper sx={{mb: 2, p: 2}} variant="outlined">
+          <Typography 
+            component="h1" 
+            mb={1}
+            variant="h5" 
+          >
+            Create Ad 
+          </Typography>
+          {error && <Alert severity="error">{error}</Alert>}
+          <form onSubmit={handleSubmit}>
+            <TextField 
+              id="title" 
+              type="text" 
+              label="Title" 
+              variant="outlined" 
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              fullWidth
+              margin="normal"
+            />
+
+            <Typography 
+              color="text.secondary"
+              component="p"
+              fontWeight={"medium"}
+              mb={1}
+              mt={2}
+              variant="body1" 
+            >
+              Describe what you are selling
+            </Typography>
+            <RichTextEditor updateDescription={updateDescription}/>
+
+            <Box mt={3} textAlign={"right"}>
+              <Button 
+                sx={{ 
+                  borderRadius: '1.5rem',
+                  textTransform: 'capitalize'
+                }}
+                variant="contained"
+              >
+                Post Ad
+              </Button>
+            </Box> 
+          </form>
+        </Paper>
+        <Paper sx={{p: 2}} variant="outlined">
+          <Typography 
+            component="h1" 
+            mb={1}
+            variant="h5" 
+          >
+            Images
+          </Typography>
+          <ImageUploader/>
+        </Paper>
+      </Container>
     </AppLayout>
   )
 }

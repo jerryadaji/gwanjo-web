@@ -1,4 +1,5 @@
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
+import Footer from './Footer';
 import MainNavbar from "./nav/MainNavbar"
 
 const  AppLayout = ({children, className}) => {
@@ -8,11 +9,14 @@ const  AppLayout = ({children, className}) => {
       <Container 
         maxWidth="lg" 
         sx={{
-          marginTop: '5rem',
+          pt: '3rem',
+          minHeight: "calc(100vh - 9rem)",
+          mt: 4
         }}
       >
-        <div className={className + " mt-4"}>{children}</div>
+        {children}
       </Container>
+      <Footer/>
     </>
 	)
 }

@@ -16,26 +16,44 @@ import NewPassword from "./components/auth/NewPassword"
 import CreateAd from "./components/user/CreateAd"
 import Ad from "./components/ad/Ad"
 
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      //main: "#44079c",
+      main: "#702963",
+      //main: "#770737",
+    },
+    secondary: {
+      main: "#ffbf00",
+    },
+  },
+});
+
 function App() {
   return (
     <UserAuthContextProvider>
       <AdContextProvider>
-        <Routes>
-          <Route path="/" element={ <Home/> }/>
-          <Route path="login" element={ <Login/> }/>
-          <Route path="signup" element={ <Signup />}/>
-          <Route path="forgot-password" element={ <ForgotPassword />}/>
+      <ThemeProvider theme={theme}>
+          <Routes>
+            <Route path="/" element={ <Home/> }/>
+            <Route path="login" element={ <Login/> }/>
+            <Route path="signup" element={ <Signup />}/>
+            <Route path="forgot-password" element={ <ForgotPassword />}/>
 
-          <Route path="change-password" element={ <ProtectedRoute><NewPassword/></ProtectedRoute> } />
+            <Route path="change-password" element={ <ProtectedRoute><NewPassword/></ProtectedRoute> } />
 
-          <Route path="dashboard" element={ <ProtectedRoute><Dashboard/></ProtectedRoute> } />
-          <Route path="settings" element={ <ProtectedRoute><Settings/></ProtectedRoute> } />
-          <Route path="create-ad" element={ <ProtectedRoute><CreateAd/></ProtectedRoute> } />
+            <Route path="dashboard" element={ <ProtectedRoute><Dashboard/></ProtectedRoute> } />
+            <Route path="settings" element={ <ProtectedRoute><Settings/></ProtectedRoute> } />
+            <Route path="create-ad" element={ <ProtectedRoute><CreateAd/></ProtectedRoute> } />
 
-          <Route path="ad/:adId" element={ <Ad /> } />
-          
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>    
+            <Route path="ad/:adId" element={ <Ad /> } />
+            
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>    
+          </ThemeProvider>
       </AdContextProvider>
     </UserAuthContextProvider>
   );

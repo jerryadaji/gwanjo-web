@@ -1,0 +1,28 @@
+.google-button{
+  align-items: center;
+  border-radius: 1.5rem !important;
+  display: block !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  height: 43px !important;
+  justify-content: center;
+  overflow: hidden !important;
+  position: relative;
+  width: 100% !important;
+
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 6px 0px !important;
+  }
+
+  div{
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.button-divider{
+  display: flex;
+}
+

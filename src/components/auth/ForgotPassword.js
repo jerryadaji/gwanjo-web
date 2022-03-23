@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Alert, Button, Form } from "react-bootstrap";
 import { useUserAuth } from "../../context/UserAuthContext";
 import AuthLayout from "../layout/AuthLayout";
 import AuthWrapper from "./AuthWrapper";
+
+import { 
+  Alert, Card, CardContent, Box, Button, Link, TextField, Typography 
+} from '@mui/material';
+import mailSent from "../../images/icons/mail_sent.png"
 
 const  ForgotPassword = () => {
 	const [email, setEmail] = useState("");
@@ -25,28 +28,44 @@ const  ForgotPassword = () => {
 
   if(!emailSent){
     return(
-      <AuthLayout>
-        <div className="p-4 mt-5 box card">
-          <h5 className="mb-4">Forgot Password</h5>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control 
+      <AuthWrapper>
+        <AuthLayout>
+        <Card>
+          <CardContent sx={{ p: "1.5rem"}}>
+            <Typography variant="h5" mb={2} component="h1">Reset Password</Typography>
+            {error && <Alert variant="danger">{error}</Alert>}
+            <form onSubmit={handleSubmit}>
+              <TextField 
+                id="email-address" 
                 type="email" 
-                placeholder="Email address"
+                label="Email address" 
+                variant="outlined" 
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                />
-            </Form.Group>
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">Reset Password</Button>
-            </div> 
-          </Form>
-        </div>
-        <div className="p-4 box card mt-3 text-center">
-          <p className="mb-0">Remembered your password? <Link to="/login">Log In</Link></p>
-        </div>
-      </AuthLayout>
+                fullWidth
+                margin="normal"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                size="large"
+                sx={{ 
+                  borderRadius: '1.5rem',
+                  mt: 3, 
+                  mb: 1,
+                  textTransform: 'capitalize'
+                }}
+              >Reset Password</Button>
+              <Box container sx={{ mt: 4 }}>
+                <Typography component="span" variant="body2">Remembered your password? </Typography>
+                <Link href="/login" variant="body2">Sign In</Link>
+              </Box>
+            </form>
+          </CardContent>
+          </Card>
+        </AuthLayout>
+      </AuthWrapper>
     )
   } else {
     return <PasswordResetConfirmation/>
@@ -55,12 +74,17 @@ const  ForgotPassword = () => {
 
 const  PasswordResetConfirmation = () => {
   return(
-    <AuthLayout className="text-center">
-      <h5 className="mb-4">Password Reset Request Sent</h5>
-      <p>A password reset message was sent to ypur email address. Please click the link in that message ro reset your password.</p>
-      <p className="mb-4">If you do not receive the password reset message within a few moments, please check your spam folder or other filtering tools.</p>
-      <p>Remembered your password? <Link to="/login">Login</Link></p>
-    </AuthLayout>
+    <AuthWrapper>
+      <AuthLayout>
+        <Box sx={{textAlign: "center"}}>
+          <img src={mailSent} alt="Mail sent" height={150} />
+          <Typography variant="h6" mb={2} component="h1">Password Reset Request Sent</Typography>
+          <Typography variant="body2" mb={2} component="p">A password reset message was sent to ypur email address. Please click the link in that message ro reset your password.</Typography>
+          <Typography variant="body2" mb={2} component="p">If you do not receive the password reset message within a few moments, please check your spam folder or other filtering tools.</Typography>
+          <Typography variant="subtitle2" mb={2} component="p">Remembered your password? <Link href="/login">Login</Link></Typography>
+        </Box>
+      </AuthLayout>
+    </AuthWrapper>
 	)
 }
 
