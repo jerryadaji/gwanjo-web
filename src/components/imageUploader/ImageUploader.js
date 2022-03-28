@@ -39,13 +39,12 @@ const ImageUploader = () => {
       </Typography>
       <Box
         border={"1px solid #D8D8D8"}
-        p={2}
+        p={1}
         borderRadius="2px"
       >
         <Grid container spacing={1}>
-          {
-            imageUrls.map( (url, index) =>  <Preview key={index} id={1} remove={remove} url={url} /> )
-          }
+          { imageUrls.map( (url, index) =>  <Preview key={index} id={1} remove={remove} url={url} /> ) }
+          { !imageUrls.length && <EmptyState/> }
         </Grid>
         <input type="file" multiple accept="image/*" onChange={onImageChange} />
       </Box>

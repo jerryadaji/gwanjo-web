@@ -17,6 +17,7 @@ import CreateAd from "./components/user/CreateAd"
 import Ad from "./components/ad/Ad"
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ScrollToTop from "./components/ScrollToTop"
 
 
 const theme = createTheme({
@@ -37,6 +38,7 @@ function App() {
     <UserAuthContextProvider>
       <AdContextProvider>
       <ThemeProvider theme={theme}>
+        <ScrollToTop>
           <Routes>
             <Route path="/" element={ <Home/> }/>
             <Route path="login" element={ <Login/> }/>
@@ -53,7 +55,8 @@ function App() {
             
             <Route path="*" element={<PageNotFound />} />
           </Routes>    
-          </ThemeProvider>
+          </ScrollToTop>
+        </ThemeProvider>
       </AdContextProvider>
     </UserAuthContextProvider>
   );
