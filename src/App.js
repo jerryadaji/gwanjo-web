@@ -15,6 +15,7 @@ import { AdContextProvider } from "./context/AdContext"
 import NewPassword from "./components/auth/NewPassword"
 import CreateAd from "./components/user/CreateAd"
 import Ad from "./components/ad/Ad"
+import EditAd from "./components/user/EditAd"
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ScrollToTop from "./components/ScrollToTop"
@@ -50,6 +51,7 @@ function App() {
             <Route path="dashboard" element={ <ProtectedRoute><Dashboard/></ProtectedRoute> } />
             <Route path="settings" element={ <ProtectedRoute><Settings/></ProtectedRoute> } />
             <Route path="create-ad" element={ <ProtectedRoute><CreateAd/></ProtectedRoute> } />
+            <Route path="edit-ad/:adId" element={ <ProtectedRoute><EditAd /></ProtectedRoute> } />
 
             <Route path="ad/:adId" element={ <Ad /> } />
             

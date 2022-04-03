@@ -1,10 +1,10 @@
 import { collection, getDocs, query, where } from "firebase/firestore"; 
 import { useEffect, useState } from "react";
-import { Row } from "react-bootstrap";
 import { db } from "../../firebase"
 import { useUserAuth } from "../../context/UserAuthContext";
 import Loader from "../Loader";
 import Ad from "../ad/AdCard";
+import { Grid } from "@mui/material";
 
 const UserAdList = () => {
   const [ads, setAds] = useState("")
@@ -33,9 +33,9 @@ const UserAdList = () => {
     )
   } else {  
     return(
-      <Row>
+      <Grid container spacing={2}>
         {ads.map(ad => <Ad key={ad.id} data={ad} isMine={true} />)}
-      </Row>
+      </Grid>
     )
   }
 }

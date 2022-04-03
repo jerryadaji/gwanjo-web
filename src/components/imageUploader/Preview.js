@@ -1,7 +1,8 @@
 import { Box, Grid } from "@mui/material";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
-const Preview = ({url, id, remove}) => {
+const Preview = ({image, id, remove}) => {
   return(
     <Grid 
       item 
@@ -9,7 +10,7 @@ const Preview = ({url, id, remove}) => {
       md={2}
     >
       <Box
-        style={{ backgroundImage: "url("+url+")" }}
+        style={{ backgroundImage: "url('"+image.url+"')" }}
         sx={{
           alignItems: "center",
           backgroundColor: "#D8D8D8",
@@ -19,7 +20,9 @@ const Preview = ({url, id, remove}) => {
           borderRadius: "4px",
           display: "flex",
           height: "4rem",
-          justifyContent: "center"
+          justifyContent: "center",
+          position: "relative", 
+          zIndex: "tooltip"
         }}
       >
         <Box 
@@ -29,17 +32,21 @@ const Preview = ({url, id, remove}) => {
             borderRadius: "50%",
             cursor: "pointer",
             display: "flex",
-            opacity: 0.3,
+            height: "2.5rem",
+            opacity: (image.uploadProgress > 0) ? "0.8" : "0.5",
             px: 1,
             py: 1,
             transition: "all 0.4s ease",
+            width: "2.5rem",
 
             '&:hover': {
               opacity: 0.8
             },
           }}
         >
-          <CloseOutlinedIcon/>
+          { (image.uploadProgress === 0) ? <CloseOutlinedIcon/> : "" }
+          { (image.uploadProgress > 0 && image.uploadProgress < 100) ? (image.uploadProgress + "%") : "" }
+          { (image.uploadProgress === 100) ? <CheckOutlinedIcon color="primary" /> : "" }
         </Box>
       </Box>
     </Grid>

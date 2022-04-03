@@ -1,12 +1,36 @@
+import { getDownloadURL, getStorage, ref, listAll } from "firebase/storage";
 import { Grid } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Frame from './Frame';
 import NextButton from "./NextButton";
 import PrevButton from "./PrevButton";
 import Thumbnail from './Thumbnail';
 
-const Gallery = ({ images }) => {
+const Gallery = ({ adId }) => {
   const [active, setActive] = useState(0);
+  const [images, setImages] = useState([])
+
+  const storage = getStorage();
+  const listRef = ref(storage, 'images/' + adId);
+
+  useEffect(() => {
+    // Find all the prefixes and items.
+    listAll(listRef)
+    .then((res) => {
+      res.items.forEach((itemRef) => {
+        getDownloadURL(itemRef)
+          .then((url) => {
+            setImages(prev => [...prev, url])
+          })
+          .catch((error) => {
+            console.log(error)
+          });
+      });
+    }).catch((error) => {
+      console.log(error)
+    });
+  }, [])  
+
 
   // Update by clicking on thumbnail
   const updateActive = (value) => setActive(value);
@@ -24,16 +48,16 @@ const Gallery = ({ images }) => {
   return (
     <Grid container spacing={2} direction={{ md:"row-reverse"}}>
       <Grid item xs={12} md={10} lg={11}>
-        <Frame background={images[active]}>
+        <Frame url={images[active]}>
           <PrevButton onClick={gotoPrev} />
           <NextButton onClick={gotoNext} />
         </Frame>
       </Grid>
       <Grid item xs={12} md={2} lg={1}>
-        {images.map( (image, index) => 
+        {images.map( (url, index) => 
           <Thumbnail 
             key={index} 
-            background={image.url} 
+            background={url} 
             isSelected={ index === active ? "isSelected" : "" } 
             onClick={() => updateActive(index)}
           />

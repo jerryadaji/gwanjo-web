@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Alert, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc, setDoc } from "firebase/firestore"; 
 import { db } from "../../firebase"
 import { useUserAuth } from "../../context/UserAuthContext";
 
@@ -15,14 +16,18 @@ import ImageUploader from "../imageUploader/ImageUploader";
 
 
 const CreateAd = () => {
+  const [adId, setAdId] = useState(""); 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(""); 
+  const [formState, setFormState] = useState("edit"); 
+
+  const navigate = useNavigate();
 
   let { user } = useUserAuth();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();    
     setError("");
 
     try {
@@ -31,13 +36,21 @@ const CreateAd = () => {
         title: title,
         description: description
       });
-      console.log("Document written with ID: ", docRef.id);
-      //navigate(state?.redirectPath || "/dashboard");
+      setAdId(docRef.id);
+      setFormState("upload");
     } catch (err) {
       console.error("Error adding document: ", err);
     }
   }
 
+    // Redirect to dashboard if form submission is complete
+    useEffect(() => {
+      if(formState === "complete"){
+        navigate("/dashboard");
+      }
+    }, [formState]) 
+
+  const updateFormState = newFormState => setFormState(newFormState)
   const updateDescription = getDescription => setDescription(getDescription)
 
   return(
@@ -60,6 +73,7 @@ const CreateAd = () => {
               id="title" 
               type="text" 
               label="Title" 
+              required
               variant="outlined" 
               onChange={(e) => setTitle(e.target.value)}
               value={title}
@@ -78,29 +92,25 @@ const CreateAd = () => {
               Describe what you are selling
             </Typography>
             <RichTextEditor updateDescription={updateDescription}/>
-
+            <ImageUploader 
+              adId={adId}
+              formState={formState} 
+              updateFormState={updateFormState}
+            />
             <Box mt={3} textAlign={"right"}>
               <Button 
                 sx={{ 
                   borderRadius: '1.5rem',
                   textTransform: 'capitalize'
                 }}
+                type="submit"
                 variant="contained"
+                disabled={ (formState === "upload") ? true : false }
               >
-                Post Ad
+                Create Ad
               </Button>
             </Box> 
           </form>
-        </Paper>
-        <Paper sx={{p: 2}} variant="outlined">
-          <Typography 
-            component="h1" 
-            mb={1}
-            variant="h5" 
-          >
-            Images
-          </Typography>
-          <ImageUploader/>
         </Paper>
       </Container>
     </AppLayout>

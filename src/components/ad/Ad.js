@@ -52,24 +52,11 @@ const  Ad = () => {
 
     getPoster()
 
-    const images = [
-      {id: 1, url: "https://picsum.photos/seed/1/800/400"},
-      {id: 2, url: "https://picsum.photos/seed/2/800/400"},
-      {id: 3, url: "https://picsum.photos/seed/3/800/400"},
-      {id: 4, url: "https://picsum.photos/seed/4/800/400"},
-      {id: 5, url: "https://picsum.photos/seed/5/800/400"},
-      {id: 6, url: "https://picsum.photos/seed/6/800/400"},
-      {id: 7, url: "https://picsum.photos/seed/7/800/400"},
-      {id: 8, url: "https://picsum.photos/seed/8/800/400"},
-      {id: 9, url: "https://picsum.photos/seed/9/800/400"},
-      {id: 10, url: "https://picsum.photos/seed/10/800/400"},
-    ];
-
     return(
       <AppLayout>
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
-            <Gallery images={images}/>
+            <Gallery adId={adId}/>
           </Grid>
           <Grid item xs={12} md={4}>
             <AdInfo title={ad.title} poster={poster}/>

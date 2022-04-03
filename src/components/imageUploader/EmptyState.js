@@ -7,7 +7,7 @@ const EmptyState = () => {
       item 
       xs={12} 
     >
-      <Box textAlign={"center"}>
+      <Box textAlign={"center"} sx={{cursor: "pointer"}}>
         <img src={upload} alt="Mail sent" height={40} />
         <Typography variant="caption" component="p">
           Drag and drop or {" "}

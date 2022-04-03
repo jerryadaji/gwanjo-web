@@ -3,10 +3,10 @@ import Trix from "trix";
 import React, { useState } from "react";
 import { ReactTrixRTEInput, ReactTrixRTEToolbar } from "react-trix-rte";
   
-  const RichTextEditor = (props) => {
+  const RichTextEditor = ({value, updateDescription}) => {
   
     const handleChange = (event, newValue) => {
-      props.updateDescription(newValue)
+      updateDescription(newValue)
     }
   
     return (
@@ -17,7 +17,7 @@ import { ReactTrixRTEInput, ReactTrixRTEToolbar } from "react-trix-rte";
         />
         <ReactTrixRTEInput
           toolbarId="react-trix-rte-editor"
-          defaultValue={"<div>"+(props.value ? props.value : "" )+"</div>"}
+          defaultValue={"<div>"+(value ? value : "" )+"</div>"}
           onChange={handleChange}
         />
       </>
