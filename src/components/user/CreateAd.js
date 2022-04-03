@@ -1,19 +1,33 @@
-import { useState } from "react";
-import { Alert, Button, Form, Card } from "react-bootstrap"
-import { collection, addDoc } from "firebase/firestore"; 
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Alert, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
+
+import { collection, addDoc, setDoc } from "firebase/firestore"; 
 import { db } from "../../firebase"
-import AppLayout from "../layout/AppLayout"
 import { useUserAuth } from "../../context/UserAuthContext";
 
+
+
+
+import AppLayout from "../layout/AppLayout"
+import RichTextEditor from "../richtextEditor/RichTextEditor";
+import { ButtonBase } from "@mui/material";
+import ImageUploader from "../imageUploader/ImageUploader";
+
+
 const CreateAd = () => {
+  const [adId, setAdId] = useState(""); 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(""); 
+  const [formState, setFormState] = useState("edit"); 
+
+  const navigate = useNavigate();
 
   let { user } = useUserAuth();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault();    
     setError("");
 
     try {
@@ -22,41 +36,83 @@ const CreateAd = () => {
         title: title,
         description: description
       });
-      console.log("Document written with ID: ", docRef.id);
-      //navigate(state?.redirectPath || "/dashboard");
+      setAdId(docRef.id);
+      setFormState("upload");
     } catch (err) {
       console.error("Error adding document: ", err);
     }
   }
 
+    // Redirect to dashboard if form submission is complete
+    useEffect(() => {
+      if(formState === "complete"){
+        navigate("/dashboard");
+      }
+    }, [formState]) 
+
+  const updateFormState = newFormState => setFormState(newFormState)
+  const updateDescription = getDescription => setDescription(getDescription)
+
   return(
     <AppLayout>
-      <Card className="p-4">
-        <h5 className="mb-4">Create Ad</h5>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control 
-                type="text" 
-                placeholder="Title"
-                onChange={(e) => setTitle(e.target.value)}
-                value={title}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Control 
-                as="textarea" 
-                rows={5} 
-                placeholder="Description"
-                onChange={(e) => setDescription(e.target.value)}
-                value={description}
-              />
-            </Form.Group>
-            <div className="d-grid gap-2">
-              <Button variant="primary" type="submit">Post Ad</Button>
-            </div> 
-          </Form>
-      </Card>
+      <Container 
+        disableGutters
+        maxWidth="sm" 
+      >
+        <Paper sx={{mb: 2, p: 2}} variant="outlined">
+          <Typography 
+            component="h1" 
+            mb={1}
+            variant="h5" 
+          >
+            Create Ad 
+          </Typography>
+          {error && <Alert severity="error">{error}</Alert>}
+          <form onSubmit={handleSubmit}>
+            <TextField 
+              id="title" 
+              type="text" 
+              label="Title" 
+              required
+              variant="outlined" 
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              fullWidth
+              margin="normal"
+            />
+
+            <Typography 
+              color="text.secondary"
+              component="p"
+              fontWeight={"medium"}
+              mb={1}
+              mt={2}
+              variant="body1" 
+            >
+              Describe what you are selling
+            </Typography>
+            <RichTextEditor updateDescription={updateDescription}/>
+            <ImageUploader 
+              adId={adId}
+              formState={formState} 
+              updateFormState={updateFormState}
+            />
+            <Box mt={3} textAlign={"right"}>
+              <Button 
+                sx={{ 
+                  borderRadius: '1.5rem',
+                  textTransform: 'capitalize'
+                }}
+                type="submit"
+                variant="contained"
+                disabled={ (formState === "upload") ? true : false }
+              >
+                Create Ad
+              </Button>
+            </Box> 
+          </form>
+        </Paper>
+      </Container>
     </AppLayout>
   )
 }

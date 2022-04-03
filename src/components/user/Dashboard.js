@@ -1,6 +1,7 @@
+import { Grid, Link, Typography } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
+import PosterInfo from "../ad/page/PosterInfo";
 import AppLayout from "../layout/AppLayout";
 import UserAdList from "./UserAdList";
 
@@ -9,12 +10,28 @@ const  Dashboard = () => {
   
   return(
 		<AppLayout>
-      <h5>Dashboard</h5>
-      <h6>{user && user.email}</h6>
-      <div><Link to="/settings">Setting</Link></div>
-      <p className="mb-4"><Link to="/forgot-password">Change Password</Link></p>
-      <h6>My Ads</h6>
-      <UserAdList/>
+      <Typography 
+        component="h1" 
+        mb={1}
+        variant="h5" 
+      >
+        My Ads
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={3}>
+          <PosterInfo poster={user}/>
+          <Typography component={"p"}>{user && user.email}</Typography>
+          <Typography component={"p"}>
+            <Link href="/settings">Setting</Link>
+          </Typography>
+          <Typography component={"p"}>
+            <Link href="/forgot-password">Change Password</Link>
+          </Typography>
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <UserAdList/>
+        </Grid>
+      </Grid>
 		</AppLayout>
 	)
 }

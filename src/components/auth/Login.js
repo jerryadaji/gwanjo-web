@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Alert, Form } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
 import GoogleButton from "react-google-button";
 import AuthLayout from "../layout/AuthLayout";
 import AuthWrapper from "./AuthWrapper";
 
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import { 
+  Alert, Card, CardContent, Box, Button, Checkbox, Divider, FormControlLabel, Grid, Link, TextField, Typography 
+} from '@mui/material';
 
 const  Login = () => {
 	const [email, setEmail] = useState("");
@@ -30,6 +27,7 @@ const  Login = () => {
       navigate(state?.redirectPath || "/dashboard");
     } catch(err) {
       setError(err.message)
+      console.log(err.code)
     }
   }
   
@@ -48,66 +46,92 @@ const  Login = () => {
   return(
     <AuthWrapper>
       <AuthLayout>
-        <div className="p-4 card">
-          <h1>Log In</h1>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <form onSubmit={handleSubmit}>
-            <TextField 
-              id="email-address" 
-              type="email" 
-              label="Email address" 
-              variant="outlined" 
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              fullWidth
-              margin="normal"
-            />
-            <TextField 
-              id="password" 
-              type="password" 
-              label="Password" 
-              variant="outlined" 
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              fullWidth
-              margin="normal"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              size="large"
-              sx={{ 
-                backgroundColor: '#44079c',
-                borderRadius: '1.5rem',
-                mt: 3, 
-                mb: 2,
-                textTransform: 'capitalize'
-              }}
-            >
-              Sign In
-            </Button>
-            <div className="pt-3">
-              <GoogleButton type="light" className="w-100" onClick={handleGoogleSignIn} />
-            </div>
-            <Grid container sx={{ mt: 3, mb: 2 }}>
-              <Grid item xs>
-                <Link to="/forgot-password" variant="body2">
-                  Forgot password?
-                </Link>
+        <Card>
+          <CardContent sx={{ p: "1.5rem"}}>
+            <Typography variant="h5" mb={2} component="h1">Sign In</Typography>
+            {error && <Alert severity="error">{error}</Alert>}
+            <form onSubmit={handleSubmit}>
+              <TextField 
+                id="email-address" 
+                type="email" 
+                label="Email address" 
+                variant="outlined" 
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                fullWidth
+                margin="normal"
+              />
+              <TextField 
+                id="password" 
+                type="password" 
+                label="Password" 
+                variant="outlined" 
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                fullWidth
+                margin="normal"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                size="large"
+                sx={{ 
+                  borderRadius: '1.5rem',
+                  mt: 3, 
+                  mb: 1,
+                  textTransform: 'capitalize'
+                }}
+              >
+                Sign In
+              </Button>
+              <Box
+                sx={{ 
+                  alignItems: 'center',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}
+              >
+                <Divider sx={{ flex: 1 }} />
+                <Typography 
+                  variant="body2" 
+                  color="text.secondary"
+                  component="p"
+                  sx={{
+                    m: 0,
+                    p: 1
+                  }}
+                >OR</Typography>
+                <Divider sx={{ flex: 1 }} />
+              </Box>
+              
+              <Box
+                sx={{ 
+                  display: 'flex',
+                  justifyContent: 'center',
+                  mt: 1
+                }}
+              >
+                <GoogleButton type="light" className="google-button" onClick={handleGoogleSignIn} />
+              </Box>
+              <Grid container sx={{ mt: 4 }}>
+                <Grid item xs>
+                  <Link href="/forgot-password" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Typography component="span" variant="body2">Don't have an account? </Typography>
+                  <Link href="/signup" variant="body2">Sign Up</Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link to="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
-        </div>
+            </form>
+          </CardContent>
+        </Card>
       </AuthLayout>
     </AuthWrapper>
   )

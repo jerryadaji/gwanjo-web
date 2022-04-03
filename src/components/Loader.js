@@ -1,10 +1,18 @@
-import React from "react";
+import { Box, CircularProgress } from '@mui/material';
 
 const  Loader = () => {
 return(
-  <div className="text-center">
-    <iframe src="https://giphy.com/embed/3oEjI6SIIHBdRxXI40" width="120" height="120" frameBorder="0" className="giphy-embed"></iframe>
-  </div>
+  <Box 
+    sx={{ 
+      alignItems: "center",
+      display: "flex", 
+      height: "50vh",
+      justifyContent: "center",
+      opacity: "0.15"
+    }}
+  >
+    <CircularProgress color="inherit" />
+  </Box>
 	)
 }
 

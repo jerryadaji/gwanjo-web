@@ -1,5 +1,6 @@
 import { Container } from '@mui/material';
-import MainNavbar from "./MainNavbar";
+import Footer from './Footer';
+import MainNavbar from "./nav/MainNavbar";
 
 const  AuthLayout = ({children, className}) => {
   return(
@@ -8,13 +9,14 @@ const  AuthLayout = ({children, className}) => {
       <Container 
         maxWidth="xs"
         sx={{
-          marginTop: '5rem',
+          pt: '4rem',
+          minHeight: "calc(100vh - 8rem)",
+          mt: 4
         }}
       >
-        <div className={className + " mx-auto mt-4"}>
-          {children}
-        </div>
+        {children}
       </Container>
+      <Footer/>
     </>
 	)
 }
