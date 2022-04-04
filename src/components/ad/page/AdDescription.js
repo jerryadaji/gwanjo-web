@@ -1,9 +1,16 @@
 import { Markup } from "react-render-markup";
-import { Box, Typography } from "@mui/material"
+import { Box, Paper, Typography } from "@mui/material"
 
 const AdDescription = ({description}) => {
   return(
-    <Box mt={4}>
+    <Paper
+      sx={{
+        p: 3,
+        pb: 1,
+        mb: 1
+      }}
+      variant="outlined"
+    >
       <Typography 
         color="text.primary"
         mb={2}
@@ -17,7 +24,7 @@ const AdDescription = ({description}) => {
       >
         <Markup markup={description} />
       </Box>
-    </Box>
+    </Paper>
   )
 }
 

@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import noImage from "../../../../images/icons/no_image.png"
 
 const Frame = ({ url, children }) => {
   return(
@@ -6,7 +7,7 @@ const Frame = ({ url, children }) => {
       alignItems: "center",
       backgroundColor: "#ffffff",
       backgroundSize: "cover",
-      backgroundImage: "url('"+url+"')",
+      backgroundImage: "url('"+ ( (url) ? url : noImage ) +"')",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       display: "flex",

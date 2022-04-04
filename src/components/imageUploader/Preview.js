@@ -2,6 +2,8 @@ import { Box, Grid } from "@mui/material";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
+import noImage from "../../images/icons/no_image.png";
+
 const Preview = ({image, id, remove}) => {
   return(
     <Grid 
@@ -10,7 +12,7 @@ const Preview = ({image, id, remove}) => {
       md={2}
     >
       <Box
-        style={{ backgroundImage: "url('"+image.url+"')" }}
+        style={{ backgroundImage: "url('" + ( ( image.url ) ? image.url : noImage ) + "')" }}
         sx={{
           alignItems: "center",
           backgroundColor: "#D8D8D8",

@@ -8,9 +8,9 @@ const PosterInfo = ({poster}) => {
         <Avatar 
           sx={{ 
             bgcolor: "primary", 
-            fontSize: "80%",
-            height: 32, 
-            width: 32
+            fontSize: "90%",
+            height: 36, 
+            width: 36
           }}
         >
           OP
@@ -36,7 +36,7 @@ const PosterInfo = ({poster}) => {
           textTransform: 'capitalize'
         }}
         startIcon={<LocalPhoneOutlinedIcon />}
-        variant="outlined" 
+        variant="contained" 
       >
         08031234567
       </Button>

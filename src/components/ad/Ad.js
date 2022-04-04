@@ -27,7 +27,6 @@ const  Ad = () => {
       const docRef = doc(db, "ads", adId);
       const docSnap = await getDoc(docRef);
       docSnap.exists() ? setAd({id: docSnap.id, ...docSnap.data()}) : setAd(null)
-      console.log(ad)
     }
 
     getAd()
@@ -55,17 +54,17 @@ const  Ad = () => {
     return(
       <AppLayout>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={9}>
             <Gallery adId={adId}/>
           </Grid>
-          <Grid item xs={12} md={4}>
-            <AdInfo title={ad.title} poster={poster}/>
+          <Grid item xs={12} md={3}>
+            <AdInfo ad={ad} poster={poster}/>
             <PosterInfo poster={poster}/>
           </Grid>
         </Grid>
 
         <Grid container spacing={4}>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={9}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={10} lg={1}></Grid>
               <Grid item xs={12} md={10} lg={11}>

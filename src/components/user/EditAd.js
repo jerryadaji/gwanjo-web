@@ -10,6 +10,7 @@ import { useUserAuth } from "../../context/UserAuthContext";
 import AppLayout from "../layout/AppLayout"
 import PageNotFound from "../PageNotFound";
 import Loader from "../Loader";
+import PriceField from "../elements/PriceField";
 import RichTextEditor from "../richtextEditor/RichTextEditor";
 import ImageUploader from "../imageUploader/ImageUploader";
 
@@ -17,6 +18,7 @@ import ImageUploader from "../imageUploader/ImageUploader";
 const EditAd = () => {
   const [ad, setAd] = useState("");
   const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(""); 
   const [formState, setFormState] = useState("edit"); 
@@ -36,6 +38,7 @@ const EditAd = () => {
       const docSnap = await getDoc(docRef);
       if(docSnap.exists()){
         setTitle(docSnap.data().title)
+        setPrice(docSnap.data().price)
         setDescription(docSnap.data().description)
         setAd({id: docSnap.id, ...docSnap.data()})
       }else{
@@ -65,6 +68,7 @@ const EditAd = () => {
       // Update document
       await updateDoc(adRef, {
         title: title,
+        price: price,
         description: description
       }).then(() => setFormState("upload") );
 
@@ -115,7 +119,10 @@ const EditAd = () => {
                 fullWidth
                 margin="normal"
               />
-
+              <PriceField 
+                price={price}
+                setPrice={setPrice}
+              />
               <Typography 
                 color="text.secondary"
                 component="p"

@@ -3,21 +3,22 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Alert, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 
 import { collection, addDoc, setDoc } from "firebase/firestore"; 
-import { db } from "../../firebase"
+import { db } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 
 
 
 
 import AppLayout from "../layout/AppLayout"
+import PriceField from "../elements/PriceField";
 import RichTextEditor from "../richtextEditor/RichTextEditor";
-import { ButtonBase } from "@mui/material";
 import ImageUploader from "../imageUploader/ImageUploader";
 
 
 const CreateAd = () => {
   const [adId, setAdId] = useState(""); 
   const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(""); 
   const [formState, setFormState] = useState("edit"); 
@@ -34,6 +35,7 @@ const CreateAd = () => {
       const docRef = await addDoc(collection(db, "ads"), {
         uid: user.uid,
         title: title,
+        price: price,
         description: description
       });
       setAdId(docRef.id);
@@ -80,7 +82,10 @@ const CreateAd = () => {
               fullWidth
               margin="normal"
             />
-
+            <PriceField 
+              price={price}
+              setPrice={setPrice}
+            />
             <Typography 
               color="text.secondary"
               component="p"

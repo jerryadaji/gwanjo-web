@@ -1,3 +1,4 @@
+import noImage from "../../../../images/icons/no_image.png"
 import "./thumbnail.scss"
 
 const Thumbnail = ({background, isSelected, onClick}) => {
@@ -6,7 +7,7 @@ const Thumbnail = ({background, isSelected, onClick}) => {
       className={"thumbnail " + (isSelected ? "active" : "")}
       onClick={onClick}
     >
-      <span style={{ backgroundImage: "url('"+background+"')" }}></span>
+      <span style={{ backgroundImage: "url('"+ ( (background) ? background : noImage ) +"')" }}></span>
     </div>
   )
 }
