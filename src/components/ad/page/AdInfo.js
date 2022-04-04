@@ -1,7 +1,8 @@
 import { Paper, Typography } from "@mui/material";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import CurrencyText from "../../elements/CurrencyText";
 
-const AdInfo = ({ title }) => {
+const AdInfo = ({ ad }) => {
   return(
     <Paper
       sx={{
@@ -13,9 +14,9 @@ const AdInfo = ({ title }) => {
       <Typography 
         component="h1" 
         mb={1}
-        variant="h5" 
+        variant="h6" 
       >
-        {title}
+        {ad.title}
       </Typography>
 
       <Typography 
@@ -37,7 +38,7 @@ const AdInfo = ({ title }) => {
         fontWeight={700}
         variant="h4" 
       >
-        ₦25,000
+        <CurrencyText value={ad.price} />
       </Typography>
     </Paper>
   )

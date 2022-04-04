@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { getDownloadURL, getStorage, ref, listAll } from "firebase/storage";
+import { doc, deleteDoc } from "firebase/firestore";
+import { deleteObject, getDownloadURL, getStorage, ref, listAll } from "firebase/storage";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { db } from "../../firebase"
 import { useAd } from "../../context/AdContext";
+
+
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,13 +14,18 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea, CardActions, Grid, IconButton } from '@mui/material';
 
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import DeleteConfirmation from "./DeleteConfirmation";
+
+import noImage from "../../images/icons/no_image.png"
+import CurrencyText from "../elements/CurrencyText";
+
 
 const Ad = ({data, isMine}) => {
   const [poster, setPoster]= useState("");
   const [images, setImages]= useState("");
+  const [cloudRefPaths, setCloudRefPaths]= useState([]);
   const [error, setError]= useState("");
   let { users } = useAd();
 
@@ -46,6 +55,9 @@ const Ad = ({data, isMine}) => {
     listAll(listRef)
     .then((res) => {
       res.items.forEach((itemRef) => {
+        // Save all refs
+        setCloudRefPaths(prev => [...prev, itemRef.fullPath])
+
         getDownloadURL(itemRef)
           .then((url) => {
             setImages(prev => [...prev, url])
@@ -58,6 +70,27 @@ const Ad = ({data, isMine}) => {
       setError("Something went wrong.")
     });
   }, []) 
+
+  const deleteAd = async () => {
+    try {
+      // Delete Ad
+      await deleteDoc(doc(db, "ads", data.id)).then(() => {
+        // Remove images
+        cloudRefPaths.forEach(path => {
+          const desertRef = ref(storage, path);
+    
+          // Delete the file
+          deleteObject(desertRef).then(() => {
+            // File deleted
+          }).catch((error) => {
+            setError("Something went wrong with removing the image. Try again.")
+          });
+        })
+      });
+    } catch (err) {
+      setError("Something went wrong. The Ad wasn't deleted. Try again.")
+    }  
+  }
   
 
   return(
@@ -68,7 +101,7 @@ const Ad = ({data, isMine}) => {
             <CardMedia
               component="img"
               height="140"
-              image={images[0]}
+              image={ (images.length) ? images[0] : noImage } 
               alt="Card cap"
             />
             <CardContent
@@ -88,9 +121,12 @@ const Ad = ({data, isMine}) => {
                 }}
               >{data.title}</Typography>
               <Typography 
-                variant="subtitle2" 
+                variant="body2" 
                 color="primary"
-              >₦25,000</Typography>
+                fontWeight={"bold"}
+              >
+                <CurrencyText value={data.price} />
+              </Typography>
               <Typography 
                 variant="caption" 
                 color="text.secondary"
@@ -110,14 +146,12 @@ const Ad = ({data, isMine}) => {
         {isMine && 
           <CardActions disableSpacing>
             <IconButton 
-              aria-label="Edit Ad"
+              aria-label="Edit ad"
               onClick={() => navigate("/edit-ad/" + data.id)}
             >
               <EditOutlinedIcon fontSize="small" />
             </IconButton>
-            <IconButton aria-label="share">
-              <DeleteOutlineOutlinedIcon fontSize="small" />
-            </IconButton>
+            <DeleteConfirmation action={deleteAd} data={data} image={ (images.length) ? images[0] : noImage } />
           </CardActions>
           }
       </Card>
