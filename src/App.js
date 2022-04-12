@@ -19,6 +19,7 @@ import EditAd from "./components/user/EditAd"
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ScrollToTop from "./components/ScrollToTop"
+import CategoryPage from "./components/categoryPage/CategoryPage"
 
 
 const theme = createTheme({
@@ -54,6 +55,7 @@ function App() {
             <Route path="edit-ad/:adId" element={ <ProtectedRoute><EditAd /></ProtectedRoute> } />
 
             <Route path="ad/:adId" element={ <Ad /> } />
+            <Route path=":categorySlug" element={ <CategoryPage /> } />
             
             <Route path="*" element={<PageNotFound />} />
           </Routes>    

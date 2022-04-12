@@ -11,14 +11,19 @@ import AppLayout from "../layout/AppLayout"
 import PageNotFound from "../PageNotFound";
 import Loader from "../Loader";
 import PriceField from "../elements/PriceField";
-import RichTextEditor from "../richtextEditor/RichTextEditor";
 import ImageUploader from "../imageUploader/ImageUploader";
+import Locationfield from "../elements/LocationField";
+import CategorySelector from "../elements/CategorySelector";
+import RichTextEditor from "../richtextEditor/RichTextEditor";
 
 
 const EditAd = () => {
   const [ad, setAd] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [location, setLocation] = useState("");
+  const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(""); 
   const [formState, setFormState] = useState("edit"); 
@@ -39,6 +44,9 @@ const EditAd = () => {
       if(docSnap.exists()){
         setTitle(docSnap.data().title)
         setPrice(docSnap.data().price)
+        setLocation(docSnap.data().location)
+        setCategory(docSnap.data().category)
+        setSubCategory(docSnap.data().subCategory)
         setDescription(docSnap.data().description)
         setAd({id: docSnap.id, ...docSnap.data()})
       }else{
@@ -54,7 +62,7 @@ const EditAd = () => {
     if(formState === "complete"){
       navigate("/dashboard");
     }
-  }, [formState]) 
+  }, [formState, navigate]) 
 
   // Update ad on form submission 
   const handleSubmit = async (e) => {
@@ -69,6 +77,9 @@ const EditAd = () => {
       await updateDoc(adRef, {
         title: title,
         price: price,
+        location: location,
+        category: category,
+        subCategory: subCategory,
         description: description
       }).then(() => setFormState("upload") );
 
@@ -77,6 +88,7 @@ const EditAd = () => {
     }
   }
 
+  const updateLocation = getLocationtion => setLocation(getLocationtion)
   const updateFormState = newFormState => setFormState(newFormState)
   const updateDescription = getDescription => setDescription(getDescription)
 
@@ -122,6 +134,13 @@ const EditAd = () => {
               <PriceField 
                 price={price}
                 setPrice={setPrice}
+              />
+              <Locationfield savedLocation={location} updateLocation={updateLocation}/>
+              <CategorySelector 
+                category={category} 
+                setCategory={setCategory}
+                subCategory={subCategory} 
+                setSubCategory={setSubCategory}
               />
               <Typography 
                 color="text.secondary"

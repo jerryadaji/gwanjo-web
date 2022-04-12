@@ -1,8 +1,8 @@
-import React from "react";
 import AdList from "./ad/AdList";
 import AppLayout from "./layout/AppLayout";
 
 import { Grid, Typography } from '@mui/material';
+import CategoriesList from "./elements/categorieslist/CategoriesList";
 
 
 const  Home = () => {
@@ -19,14 +19,11 @@ const  Home = () => {
         Buy anything, from anywhere
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={2}>
-          Sidebar
+        <Grid item xs={12} md={3}>
+          <CategoriesList/>
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={9}>
           <AdList/>
-        </Grid>
-        <Grid item xs={12} md={2}>
-          Ads
         </Grid>
       </Grid>
 		</AppLayout>

@@ -6,11 +6,10 @@ import { collection, addDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 
-
-
-
 import AppLayout from "../layout/AppLayout"
 import PriceField from "../elements/PriceField";
+import Locationfield from "../elements/LocationField";
+import CategorySelector from "../elements/CategorySelector";
 import RichTextEditor from "../richtextEditor/RichTextEditor";
 import ImageUploader from "../imageUploader/ImageUploader";
 
@@ -19,6 +18,9 @@ const CreateAd = () => {
   const [adId, setAdId] = useState(""); 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [location, setLocation] = useState("");
+  const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(""); 
   const [formState, setFormState] = useState("edit"); 
@@ -36,6 +38,9 @@ const CreateAd = () => {
         uid: user.uid,
         title: title,
         price: price,
+        location: location,
+        category: category,
+        subCategory: subCategory,
         description: description
       });
       setAdId(docRef.id);
@@ -53,6 +58,7 @@ const CreateAd = () => {
     }, [formState]) 
 
   const updateFormState = newFormState => setFormState(newFormState)
+  const updateLocation = getLocationtion => setLocation(getLocationtion)
   const updateDescription = getDescription => setDescription(getDescription)
 
   return(
@@ -72,6 +78,7 @@ const CreateAd = () => {
           {error && <Alert severity="error">{error}</Alert>}
           <form onSubmit={handleSubmit}>
             <TextField 
+              autoFocus
               id="title" 
               type="text" 
               label="Title" 
@@ -85,6 +92,13 @@ const CreateAd = () => {
             <PriceField 
               price={price}
               setPrice={setPrice}
+            />
+            <Locationfield updateLocation={updateLocation}/>
+            <CategorySelector 
+              category={category} 
+              setCategory={setCategory}
+              subCategory={subCategory} 
+              setSubCategory={setSubCategory}
             />
             <Typography 
               color="text.secondary"

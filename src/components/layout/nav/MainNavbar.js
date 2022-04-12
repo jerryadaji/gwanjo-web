@@ -1,7 +1,7 @@
 import { useUserAuth } from "../../../context/UserAuthContext";
-
-import { Button, Container, Link, Typography } from '@mui/material';
 import AccountMenu from "./AccountMenu";
+import { Box, Button, Container, Link, Typography } from '@mui/material';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
 const MainNavbar = () => {
   let { user } = useUserAuth();
@@ -10,21 +10,44 @@ const MainNavbar = () => {
     <div className="main-nav-wrapper">
       <Container maxWidth="lg">
         <div className="main-nav">
-          <Link href="/" sx={{mr: 3, textDecoration: "none"}}>
+          <Box
+            sx={{
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "flex-start"
+            }}
+          >
+            <Link href="/" sx={{mr: 1, textDecoration: "none"}}>
+              <Typography 
+                gutterBottom 
+                variant="h4" 
+                component="div"
+                sx={{
+                  color: 'primary',
+                  fontWeight: 700,
+                  fontSize: '1.75rem',
+                  mb: 0
+                }}
+              >
+                  Gwanjo
+              </Typography>
+            </Link>
             <Typography 
               gutterBottom 
-              variant="h4" 
+              variant="body2" 
               component="div"
               sx={{
-                color: 'primary',
-                fontWeight: 700,
-                fontSize: '1.75rem',
-                mb: 0
+                alignItems: "center",
+                cursor: "pointer",
+                display: "flex",
+                fontWeight: "medium",
+                mb: 0,
               }}
             >
-                gwanjo
+                in Abuja
+                <KeyboardArrowDownOutlinedIcon fontSize="inherit"/>
             </Typography>
-          </Link>
+          </Box>
           <div className="text-right">      
             { !user && <AuthButtons /> }
             <Button 
