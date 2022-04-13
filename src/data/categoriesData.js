@@ -95,8 +95,8 @@ const categoriesData = [
     subCategories: []
   },
   {
-    title: "Babies & Kslugs", 
-    slug: "babies-and-kslugs", 
+    title: "Babies & Kids", 
+    slug: "babies-and-kids", 
     subCategories: []
   },
   {

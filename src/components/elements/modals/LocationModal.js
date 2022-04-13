@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Locationfield from '../LocationField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,11 +8,13 @@ import { Alert, Box, Button, Card, CardContent, CardMedia, DialogTitle, IconButt
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
 
-const DeleteConfirmation = ({ action, data, image }) => {
+const LocationModal = ({ action, data, image }) => {
   const [open, setOpen] = useState(false);
   const [deleteAction, setDeleteAction] = useState(false);
+  const [location, setLocation] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,17 +26,32 @@ const DeleteConfirmation = ({ action, data, image }) => {
 
   const handleAction = () => {
     setOpen(false);
-    action();
+    console.log("New Location: " + location.region + ", saved.");
   };
+
+  const updateLocation = () => {
+    console.log("Loca")
+  }
 
   return(
    <>
-     <IconButton 
+    <Typography 
       aria-label="Delete ad"
+      component="div"
+      gutterBottom 
       onClick={handleClickOpen}
+      variant="body2" 
+      sx={{
+        alignItems: "center",
+        cursor: "pointer",
+        display: "flex",
+        fontWeight: "medium",
+        mb: 0,
+      }}
     >
-      <DeleteOutlineOutlinedIcon fontSize="small" />
-    </IconButton>
+      in Porth Harcourt
+      <KeyboardArrowDownOutlinedIcon fontSize="inherit"/>
+    </Typography>
     <Dialog
       open={open}
       onClose={handleClose}
@@ -42,50 +60,28 @@ const DeleteConfirmation = ({ action, data, image }) => {
       maxWidth={"xs"}
     >
         <DialogTitle id="alert-dialog-title" fontSize="medium">
-          {"Are you sure you want to delete this Ad?"}
+          {"Choose your location"}
         </DialogTitle>
         <DialogContent>
-          <Card variant="outlined" sx={{ display: 'flex', mb: 3 }}>
-            <CardMedia
-              component="img"
-              sx={{ width: 150 }}
-              image={image}
-            />
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <CardContent sx={{ flex: '1 0 auto' }}>
-                <Typography 
-                  gutterBottom 
-                  variant="body1" 
-                  component="p"
-                  sx={{ color: "text.primary" }}
-                >{data.title}</Typography>
-                <Typography 
-                  variant="subtitle2" 
-                  color="primary"
-                >₦25,000</Typography>
-                <Typography 
-                  variant="caption" 
-                  color="text.secondary"
-                  component="div"
-                  sx={{
-                    alignItems: "center",
-                    display: "flex",
-                    mt: 1
-                  }}
-                >
-                  <LocationOnOutlinedIcon fontSize="inherit"/>
-                  Abuja
-                </Typography>
-              </CardContent>
-            </Box>
-          </Card>
-          <Alert severity="warning">You can not undo this action.</Alert>
+        <Typography 
+          variant="caption" 
+          color="text.secondary"
+          component="p"
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            mb: 1
+          }}
+        >
+          Start typing to find your location. Your search results will be from this location
+        </Typography>
+          <Locationfield savedLocation={location} updateLocation={setLocation}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{ textTransform: 'capitalize' }}>Cancel</Button>
           <Button 
             autoFocus
-            color="error" 
+            color="primary" 
             disableElevation
             onClick={handleAction} 
             sx={{ 
@@ -94,11 +90,11 @@ const DeleteConfirmation = ({ action, data, image }) => {
             }}
             variant="contained" 
           >
-            Delete Ad
+            Done
           </Button>
         </DialogActions>
       </Dialog>
    </>
   )
 }
-export default DeleteConfirmation;
+export default LocationModal;

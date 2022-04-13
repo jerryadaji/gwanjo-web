@@ -12,6 +12,7 @@ import CategoryFilter from "../elements/adfilter/CategoryFilter";
 import { Box, Breadcrumbs, Grid, Link, Typography } from '@mui/material';
 
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import PriceFilter from "../elements/adfilter/PriceFilter";
 
 
 const CategoryPage = () => {
@@ -67,6 +68,7 @@ const CategoryPage = () => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={3}>
             { category && <CategoryFilter activeSubCategory={subCategory} category={category} /> }
+            { category && <PriceFilter activeSubCategory={subCategory} category={category} /> }
           </Grid>
           <Grid item xs={12} md={9}>
             {subCategory &&

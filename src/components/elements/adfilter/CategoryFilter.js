@@ -28,13 +28,11 @@ const CategoryFilter = ({ category, activeSubCategory }) => {
               <ListItemButton 
                 component="a" 
                 href={ "/" + subCategory.slug}
-                sx={{
-                  backgroundColor: subCategory.slug === activeSubCategory.slug ? "#f4f4f4" : ""
-                }}
               >
                 <Typography 
                   fontSize="small" 
                   fontWeight={ subCategory.slug === activeSubCategory.slug ? "bold" : "" }
+                  color={ subCategory.slug === activeSubCategory.slug ? "primary" : "" }
                   pl={2}
                 >
                   {subCategory.title}

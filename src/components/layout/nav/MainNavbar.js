@@ -1,7 +1,7 @@
 import { useUserAuth } from "../../../context/UserAuthContext";
 import AccountMenu from "./AccountMenu";
+import LocationModal from "../../elements/modals/LocationModal";
 import { Box, Button, Container, Link, Typography } from '@mui/material';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
 const MainNavbar = () => {
   let { user } = useUserAuth();
@@ -32,21 +32,7 @@ const MainNavbar = () => {
                   Gwanjo
               </Typography>
             </Link>
-            <Typography 
-              gutterBottom 
-              variant="body2" 
-              component="div"
-              sx={{
-                alignItems: "center",
-                cursor: "pointer",
-                display: "flex",
-                fontWeight: "medium",
-                mb: 0,
-              }}
-            >
-                in Abuja
-                <KeyboardArrowDownOutlinedIcon fontSize="inherit"/>
-            </Typography>
+            <LocationModal />
           </Box>
           <div className="text-right">      
             { !user && <AuthButtons /> }
