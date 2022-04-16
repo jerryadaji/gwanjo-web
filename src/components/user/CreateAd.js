@@ -18,7 +18,8 @@ const CreateAd = () => {
   const [adId, setAdId] = useState(""); 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [location, setLocation] = useState("");
+  const [state, setState] = useState("");
+  const [region, setRegion] = useState("");
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -38,7 +39,8 @@ const CreateAd = () => {
         uid: user.uid,
         title: title,
         price: price,
-        location: location,
+        state: state,
+        region: region,
         category: category,
         subCategory: subCategory,
         description: description
@@ -58,7 +60,10 @@ const CreateAd = () => {
     }, [formState]) 
 
   const updateFormState = newFormState => setFormState(newFormState)
-  const updateLocation = getLocationtion => setLocation(getLocationtion)
+  const updateLocation = getLocationtion => {
+    setState(getLocationtion.state)
+    setRegion(getLocationtion.id)
+  }
   const updateDescription = getDescription => setDescription(getDescription)
 
   return(

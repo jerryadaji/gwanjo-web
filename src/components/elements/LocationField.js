@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import locationsData from '../../data/locationsData';
@@ -8,18 +8,19 @@ export default function Locationfield({ savedLocation, updateLocation }) {
   // Read from database
   const options = locationsData;
 
-  const [value, setValue] = React.useState(options[0]);
+  const [value, setValue] = useState(options[0]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     updateLocation(value)
   }, [value, updateLocation])
 
   // Set saved location
-  React.useEffect(() => {
+  useEffect(() => {
     if(savedLocation){
-
-      const getLocation = options.filter((option) => option.id === savedLocation.id)
-      setValue(savedLocation)
+      if(savedLocation.state && savedLocation.region ){
+        const getLocation = options.filter((option) => option.id === savedLocation.region)
+        setValue(getLocation[0])
+      }
     }
   }, [])
 

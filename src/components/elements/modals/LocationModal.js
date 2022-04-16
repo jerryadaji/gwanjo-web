@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import locationsData from '../../../data/locationsData';
 import Locationfield from '../LocationField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -13,8 +14,14 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 
 const LocationModal = ({ action, data, image }) => {
   const [open, setOpen] = useState(false);
-  const [deleteAction, setDeleteAction] = useState(false);
-  const [location, setLocation] = useState("");
+  const [savedLocation, setSavedLocation] = useState("");
+  const [location, setLocation] = useState(
+    JSON.parse(localStorage.getItem('location')) || false
+  );
+
+  useEffect(() => {
+    setSavedLocation( JSON.parse(localStorage.getItem('location')) || "Nigeria" )
+  }, [open])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,13 +32,15 @@ const LocationModal = ({ action, data, image }) => {
   };
 
   const handleAction = () => {
+    const saveLocation = {
+      id: location.id,
+      state: location.state, 
+      region: location.region
+    }
+    
+    localStorage.setItem('location', JSON.stringify(saveLocation));
     setOpen(false);
-    console.log("New Location: " + location.region + ", saved.");
   };
-
-  const updateLocation = () => {
-    console.log("Loca")
-  }
 
   return(
    <>
@@ -49,7 +58,7 @@ const LocationModal = ({ action, data, image }) => {
         mb: 0,
       }}
     >
-      in Porth Harcourt
+      in {savedLocation.region ?? "Nigeria"}
       <KeyboardArrowDownOutlinedIcon fontSize="inherit"/>
     </Typography>
     <Dialog
@@ -75,7 +84,7 @@ const LocationModal = ({ action, data, image }) => {
         >
           Start typing to find your location. Your search results will be from this location
         </Typography>
-          <Locationfield savedLocation={location} updateLocation={setLocation}/>
+          <Locationfield savedLocation={{state: location.state, region: location.id}} updateLocation={setLocation}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{ textTransform: 'capitalize' }}>Cancel</Button>
@@ -97,4 +106,5 @@ const LocationModal = ({ action, data, image }) => {
    </>
   )
 }
+
 export default LocationModal;

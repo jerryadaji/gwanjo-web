@@ -21,7 +21,8 @@ const EditAd = () => {
   const [ad, setAd] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
-  const [location, setLocation] = useState("");
+  const [state, setState] = useState("");
+  const [region, setRegion] = useState("");
   const [category, setCategory] = useState("");
   const [subCategory, setSubCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -44,7 +45,8 @@ const EditAd = () => {
       if(docSnap.exists()){
         setTitle(docSnap.data().title)
         setPrice(docSnap.data().price)
-        setLocation(docSnap.data().location)
+        setState(docSnap.data().state)
+        setRegion(docSnap.data().region)
         setCategory(docSnap.data().category)
         setSubCategory(docSnap.data().subCategory)
         setDescription(docSnap.data().description)
@@ -77,7 +79,8 @@ const EditAd = () => {
       await updateDoc(adRef, {
         title: title,
         price: price,
-        location: location,
+        state: state,
+        region: region,
         category: category,
         subCategory: subCategory,
         description: description
@@ -88,7 +91,10 @@ const EditAd = () => {
     }
   }
 
-  const updateLocation = getLocationtion => setLocation(getLocationtion)
+  const updateLocation = getLocationtion => {
+    setState(getLocationtion.state)
+    setRegion(getLocationtion.id)
+  }
   const updateFormState = newFormState => setFormState(newFormState)
   const updateDescription = getDescription => setDescription(getDescription)
 
@@ -135,7 +141,7 @@ const EditAd = () => {
                 price={price}
                 setPrice={setPrice}
               />
-              <Locationfield savedLocation={location} updateLocation={updateLocation}/>
+              <Locationfield savedLocation={{state: state, region: region}} updateLocation={updateLocation}/>
               <CategorySelector 
                 category={category} 
                 setCategory={setCategory}
