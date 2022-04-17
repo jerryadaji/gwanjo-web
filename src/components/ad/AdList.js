@@ -4,28 +4,49 @@ import { db } from "../../firebase"
 import Loader from "../Loader";
 import Ad from "./AdCard";
 
-import { Alert, Grid } from '@mui/material';
+import { Alert, Grid, Typography } from '@mui/material';
+import { useSearchParams } from "react-router-dom";
 
 const AdList = ({ hasQuery, subCategory }) => {
   const [ads, setAds] = useState("")
+  const [min, setMin] = useState("");
+  const [max, setMax] = useState("");
   const [error, setError] = useState("")
+
+  let [searchParams, setSearchParams] = useSearchParams()
   
   useEffect(() => {
+    const userLocation = JSON.parse(localStorage.getItem('location'))
+
     const getAds = async () => {
       try{
         if( hasQuery ){
-
-          const q = query(
-            collection(db, "ads"), 
-            where( "subCategory", "==", subCategory )
-          );
+          let q = "";
+          if( userLocation ){
+            q = query(
+              collection(db, "ads"), 
+              where( "subCategory", "==", subCategory ),
+              where( "price", ">=", Number(searchParams.get("min")) ),
+              where( "price", "<=", Number(searchParams.get("max")) ),
+              where( "region", "==", userLocation.id )
+            );
+          } else {
+            q = query(
+              collection(db, "ads"), 
+              where( "subCategory", "==", subCategory ),
+            );
+          }
 
           const querySnapshot = await getDocs(q);
           const data = querySnapshot.docs.map(doc => {
             return {id: doc.id, ...doc.data()}
           });
 
-          setAds(data)
+          if(data.length > 0){
+            setAds(data)
+          } else {
+            setAds("empty")
+          }
         } else {
           const q = query( collection(db, "ads") );
 
@@ -34,7 +55,11 @@ const AdList = ({ hasQuery, subCategory }) => {
             return {id: doc.id, ...doc.data()}
           });
 
-          setAds(data)
+          if(data.length > 0){
+            setAds(data)
+          } else {
+            setAds("empty")
+          }
         }
       } catch(err) {
         setError(err)
@@ -47,6 +72,10 @@ const AdList = ({ hasQuery, subCategory }) => {
   if( ads === "" ){
     return (
       <Loader/>
+    )
+  } else if (ads === "empty"){
+    return(
+      <><Typography textAlign="center" variant="body1">No Ads found</Typography></>
     )
   } else {  
     return(

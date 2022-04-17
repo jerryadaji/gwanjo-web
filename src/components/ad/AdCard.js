@@ -20,11 +20,13 @@ import DeleteConfirmation from "./DeleteConfirmation";
 
 import noImage from "../../images/icons/no_image.png"
 import CurrencyText from "../elements/CurrencyText";
+import locationsData from "../../data/locationsData";
 
 
 const Ad = ({data, isMine}) => {
   const [poster, setPoster]= useState("");
   const [images, setImages]= useState("");
+  const [location, setLocation]= useState("");
   const [cloudRefPaths, setCloudRefPaths]= useState([]);
   const [error, setError]= useState("");
   let { users } = useAd();
@@ -45,6 +47,14 @@ const Ad = ({data, isMine}) => {
 
     getUsers()
   }
+
+  // Location
+  useEffect(()=>{
+    if(data.region){
+      const findLocation = locationsData.filter(region => region.id === data.region)
+      setLocation(findLocation[0].region)
+    }
+  },[])
 
   // Get Image
   const storage = getStorage();
@@ -138,7 +148,7 @@ const Ad = ({data, isMine}) => {
                 }}
               >
                 <LocationOnOutlinedIcon fontSize="inherit"/>
-                Abuja
+                {location || "Somewhere in Nigeria"}
               </Typography>
             </CardContent>
           </CardActionArea>

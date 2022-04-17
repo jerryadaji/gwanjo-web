@@ -78,7 +78,7 @@ const EditAd = () => {
       // Update document
       await updateDoc(adRef, {
         title: title,
-        price: price,
+        price: Number(price),
         state: state,
         region: region,
         category: category,

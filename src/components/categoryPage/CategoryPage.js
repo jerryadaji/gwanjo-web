@@ -19,6 +19,9 @@ const CategoryPage = () => {
   const [ found, setFound ] = useState("checkin");
   const [ category, setCategory ] = useState("");
   const [ subCategory, setSubCategory ] = useState("");
+  const [userLocation, setUserLocation] = useState(
+    JSON.parse(localStorage.getItem('location')) || ""
+  );
 
 
   // Get Category ID from URL
@@ -45,6 +48,7 @@ const CategoryPage = () => {
     } else {
       setFound(false)
     }
+
   },[])
 
   if( found === false ){
@@ -64,7 +68,7 @@ const CategoryPage = () => {
             <Typography color="text.primary" variant="caption">{subCategory.title}</Typography>
           </Breadcrumbs>
         </Box>
-        <Typography variant="h5" mb={2} component="h1">{subCategory.title} in Nigeria</Typography>
+        <Typography variant="h5" mb={2} component="h1">{subCategory.title} in {userLocation.region ?? "Nigeria"}</Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={3}>
             { category && <CategoryFilter activeSubCategory={subCategory} category={category} /> }

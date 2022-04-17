@@ -14,13 +14,13 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 
 const LocationModal = ({ action, data, image }) => {
   const [open, setOpen] = useState(false);
-  const [savedLocation, setSavedLocation] = useState("");
+  const [userLocation, setUserLocation] = useState("");
   const [location, setLocation] = useState(
     JSON.parse(localStorage.getItem('location')) || false
   );
 
   useEffect(() => {
-    setSavedLocation( JSON.parse(localStorage.getItem('location')) || "Nigeria" )
+    setUserLocation( JSON.parse(localStorage.getItem('location')) || "" )
   }, [open])
 
   const handleClickOpen = () => {
@@ -58,7 +58,7 @@ const LocationModal = ({ action, data, image }) => {
         mb: 0,
       }}
     >
-      in {savedLocation.region ?? "Nigeria"}
+      in {userLocation.region ?? "Nigeria"}
       <KeyboardArrowDownOutlinedIcon fontSize="inherit"/>
     </Typography>
     <Dialog
