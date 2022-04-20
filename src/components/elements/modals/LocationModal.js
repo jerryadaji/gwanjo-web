@@ -40,6 +40,7 @@ const LocationModal = ({ action, data, image }) => {
     
     localStorage.setItem('location', JSON.stringify(saveLocation));
     setOpen(false);
+    window.location.reload();
   };
 
   return(

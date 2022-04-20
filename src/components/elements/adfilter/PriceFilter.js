@@ -18,6 +18,7 @@ const PriceFilter = ({ category, activeSubCategory }) => {
 
   const handleClear = () => {
     navigate(location.pathname);
+    window.location.reload();
   }
   
   const handleSubmit = () => {
@@ -31,6 +32,7 @@ const PriceFilter = ({ category, activeSubCategory }) => {
     url = url.replace(/\s+/g, '')
 
     navigate(url);
+    window.location.reload();
   }
 
   return (
