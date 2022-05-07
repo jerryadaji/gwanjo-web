@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from "firebase/firestore"; 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { db } from "../../firebase"
 import Loader from "../Loader";
 import Ad from "./AdCard";
@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import Pagination from "../elements/PaginationElement";
 import NumberText from "../elements/NumberText";
 import SortMenu from "../elements/adfilter/SortMenu";
+import { QueryStringContext } from "../../context/QuerString";
 
 const AdList = ({ hasQuery, subCategory }) => {
   const [ads, setAds] = useState("")
@@ -19,6 +20,10 @@ const AdList = ({ hasQuery, subCategory }) => {
 
   let [searchParams, setSearchParams] = useSearchParams()
 
+  // Get Url from queryString
+  const [filterQuery] = useContext(QueryStringContext)
+
+  // Set max ads per page
   const maxAdsOnPage = 16;
 
   // Filter Min
@@ -68,6 +73,8 @@ const AdList = ({ hasQuery, subCategory }) => {
   }
   
   useEffect(() => {
+    console.log(filterQuery)
+
     const userLocation = JSON.parse(localStorage.getItem('location'))
     const currentPage = Number( searchParams.get("page") ) || 1;
 
@@ -140,7 +147,7 @@ const AdList = ({ hasQuery, subCategory }) => {
     }
 
     getAds()
-  }, []);
+  }, [filterQuery]);
 
   if( ads === "" ){
     return (
@@ -154,17 +161,19 @@ const AdList = ({ hasQuery, subCategory }) => {
     return(
       <>
         {error && <Alert severity="error">{error}</Alert>}
-        <Box 
-          alignItems="center"
-          display="flex"
-          justifyContent="space-between"
-          mb={2}
-        >
-          <Typography variant="subtitle1">
-            <NumberText value={adCount} /> ads found
-          </Typography>  
-          <SortMenu/>
-        </Box>
+        { hasQuery &&
+          <Box 
+            alignItems="center"
+            display="flex"
+            justifyContent="space-between"
+            mb={2}
+          >
+            <Typography variant="subtitle1">
+              <NumberText value={adCount} /> ads found
+            </Typography>  
+            <SortMenu/>
+          </Box>
+          }
         <Grid container spacing={2}>
           {ads.map((ad, index) => <Ad key={index} data={ad} isMine={false} />)}
         </Grid>

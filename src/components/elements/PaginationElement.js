@@ -1,38 +1,19 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-
-import { Box, Pagination, Typography } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
+import { QueryStringContext } from '../../context/QuerString';
+import { Box, Pagination } from '@mui/material';
 
 const PaginationElement = ( {count, maxAdsOnPage} ) => {
   const [page, setPage] = useState(1);
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
 
-  const location = useLocation();
-  const navigate = useNavigate();
-  let [searchParams, setSearchParams] = useSearchParams()
+  // Get Query String argument from Context
+  const [filterQuery, setFilterQuery] = useContext(QueryStringContext)
 
   useEffect(() => {
-    setPage( Number( searchParams.get("page") ) || 1 )
-    setMin( searchParams.get("min") || "" )
-    setMax( searchParams.get("max") || "" )
-  },[searchParams])
-
+    setPage( Number( filterQuery.page ) || 1 )
+  },[filterQuery])
 
   const handleChange = (event, value) => {
-    let url = `
-      ${location.pathname} ?
-      ${ min ? ( "min=" + min) : ""}
-      ${ min && max ? "&" : "" }
-      ${ max ? ( "max=" + max) : ""}
-      ${ (min || max) && value > 1 ? "&" : "" }
-      ${ ( value > 1 ) ? ( "page=" + value) : ""}
-    `
-
-    url = url.replace(/\s+/g, '')
-
-    navigate(url);
-    window.location.reload();
+    setFilterQuery(prev => ({...prev, page: value}))
   };
 
   return (

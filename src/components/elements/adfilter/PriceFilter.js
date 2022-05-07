@@ -1,38 +1,29 @@
 import PriceFieldCompact from "../PriceFieldCompact"
-import { Box, Button, List, ListItem, ListItemButton, Typography } from '@mui/material';
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Button, List, ListItem, Typography } from '@mui/material';
+import { useContext, useEffect, useState } from "react";
+import { QueryStringContext } from "../../../context/QuerString";
 
 const PriceFilter = ({ category, activeSubCategory }) => {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
 
-  const location = useLocation();
-  const navigate = useNavigate();
-  let [searchParams, setSearchParams] = useSearchParams()
-
+  // Get Query String argument from Context
+  const [filterQuery, setFilterQuery] = useContext(QueryStringContext)
+ 
+  // Set Query String argument state
   useEffect(() => {
-    setMin( searchParams.get("min") || "" )
-    setMax( searchParams.get("max") || "" )
-  },[searchParams])
+    setMin( filterQuery.min )
+    setMax( filterQuery.max )
+  },[filterQuery])
 
+  // Clear Price Filter
   const handleClear = () => {
-    navigate(location.pathname);
-    window.location.reload();
+    setFilterQuery(prev => ({...prev, min: '', max: ''}))
   }
   
+  // Set Price Filter
   const handleSubmit = () => {
-    let url = `
-      ${location.pathname} ?
-      ${ min ? ( "min=" + min) : ""}
-      ${ min && max ? "&" : "" }
-      ${ max ? ( "max=" + max) : ""}
-    `
-
-    url = url.replace(/\s+/g, '')
-
-    navigate(url);
-    window.location.reload();
+    setFilterQuery(prev => ({...prev, min: min, max: max}))
   }
 
   return (

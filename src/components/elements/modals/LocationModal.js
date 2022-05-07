@@ -10,6 +10,7 @@ import { Alert, Box, Button, Card, CardContent, CardMedia, DialogTitle, IconButt
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const LocationModal = ({ action, data, image }) => {
@@ -18,6 +19,9 @@ const LocationModal = ({ action, data, image }) => {
   const [location, setLocation] = useState(
     JSON.parse(localStorage.getItem('location')) || false
   );
+
+  const navigate = useNavigate();
+  const currentLocation = useLocation();
 
   useEffect(() => {
     setUserLocation( JSON.parse(localStorage.getItem('location')) || "" )
@@ -40,6 +44,7 @@ const LocationModal = ({ action, data, image }) => {
     
     localStorage.setItem('location', JSON.stringify(saveLocation));
     setOpen(false);
+    navigate( currentLocation.pathname );
     window.location.reload();
   };
 
