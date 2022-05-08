@@ -5,7 +5,6 @@ import Loader from "../Loader";
 import Ad from "./AdCard";
 
 import { Alert, Box, Grid, Typography } from '@mui/material';
-import { useSearchParams } from "react-router-dom";
 import Pagination from "../elements/PaginationElement";
 import NumberText from "../elements/NumberText";
 import SortMenu from "../elements/adfilter/SortMenu";
@@ -13,12 +12,8 @@ import { QueryStringContext } from "../../context/QuerString";
 
 const AdList = ({ hasQuery, subCategory }) => {
   const [ads, setAds] = useState("")
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
   const [adCount, setAdCount] = useState("");
   const [error, setError] = useState("")
-
-  let [searchParams, setSearchParams] = useSearchParams()
 
   // Get Url from queryString
   const [filterQuery] = useContext(QueryStringContext)
@@ -38,6 +33,26 @@ const AdList = ({ hasQuery, subCategory }) => {
     return filteredData;
   }
   
+  const sortBy = ( data, value ) => {
+    //const filteredData = data.filter( item => item.price <= Number(value) )
+    //return filteredData;
+
+    if( value === "date_published" || value === "" ){
+
+    }
+
+    if( value === "price_low_to_high" ){
+      data.sort( function(a, b){return a.price - b.price} )
+    }
+
+    if( value === "price_high_to_low" ){
+      data.sort( function(a, b){return b.price - a.price} )
+    }
+
+    console.log(data)
+    return data
+  }
+
   // Filter by page
   const filterByPage = ( data, currentPage, total ) => {
     let paged = []
@@ -62,6 +77,7 @@ const AdList = ({ hasQuery, subCategory }) => {
     return paged
   }
 
+
   // multiplier
   const multiplier = ( data, number ) => {
     let multiplied = []
@@ -73,10 +89,8 @@ const AdList = ({ hasQuery, subCategory }) => {
   }
   
   useEffect(() => {
-    console.log(filterQuery)
-
     const userLocation = JSON.parse(localStorage.getItem('location'))
-    const currentPage = Number( searchParams.get("page") ) || 1;
+    const currentPage = Number( filterQuery.page ) || 1;
 
     const getAds = async () => {
       try{
@@ -97,6 +111,7 @@ const AdList = ({ hasQuery, subCategory }) => {
 
           const querySnapshot = await getDocs(q);
           const data = querySnapshot.docs.map(doc => {
+            console.log(doc.createTime)
             return {id: doc.id, ...doc.data()}
           });
 
@@ -104,19 +119,20 @@ const AdList = ({ hasQuery, subCategory }) => {
             let adsData = data;
 
             // Filter by Min Price
-            if( searchParams.get("min") ){
-              adsData = filterMin(adsData, searchParams.get("min"))
+            if( filterQuery.min ){
+              adsData = filterMin(adsData, filterQuery.min)
             }
 
             // Filter by Max Price
-            if( searchParams.get("max") ){
-              adsData = filterMax(adsData, searchParams.get("max"))
+            if( filterQuery.max ){
+              adsData = filterMax(adsData, filterQuery.max )
             }
 
             // Sort
+            adsData = sortBy(adsData, filterQuery.sort )
 
             // Multiplier
-            adsData = multiplier(adsData, 1200)
+            //adsData = multiplier(adsData, 1200)
 
             setAdCount(adsData.length)
             
