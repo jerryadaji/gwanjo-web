@@ -31,7 +31,7 @@ NumberFormatCustom.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-export default function PriceField({ price, setPrice }) {
+export default function PriceFieldCompact({ price, setPrice, label }) {
 
   const handleChange = (event) => {
     setPrice(event.target.value)
@@ -39,7 +39,7 @@ export default function PriceField({ price, setPrice }) {
 
   return (
     <TextField
-      label="Price"
+      label={label}
       value={price}
       onChange={handleChange}
       name="price"
@@ -49,8 +49,8 @@ export default function PriceField({ price, setPrice }) {
       }}
       variant="outlined"
       fullWidth
-      required
-      margin="normal"
+      margin="none"
+      size="small"
     />
   );
 }

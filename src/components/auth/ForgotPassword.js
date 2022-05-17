@@ -79,7 +79,7 @@ const  PasswordResetConfirmation = () => {
         <Box sx={{textAlign: "center"}}>
           <img src={mailSent} alt="Mail sent" height={150} />
           <Typography variant="h6" mb={2} component="h1">Password Reset Request Sent</Typography>
-          <Typography variant="body2" mb={2} component="p">A password reset message was sent to ypur email address. Please click the link in that message ro reset your password.</Typography>
+          <Typography variant="body2" mb={2} component="p">A password reset message was sent to your email address. Please click the link in that message ro reset your password.</Typography>
           <Typography variant="body2" mb={2} component="p">If you do not receive the password reset message within a few moments, please check your spam folder or other filtering tools.</Typography>
           <Typography variant="subtitle2" mb={2} component="p">Remembered your password? <Link href="/login">Login</Link></Typography>
         </Box>

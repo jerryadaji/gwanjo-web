@@ -82,7 +82,7 @@ const DeleteConfirmation = ({ action, data, image }) => {
           <Alert severity="warning">You can not undo this action.</Alert>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose} sx={{ textTransform: 'capitalize' }}>Cancel</Button>
           <Button 
             autoFocus
             color="error" 

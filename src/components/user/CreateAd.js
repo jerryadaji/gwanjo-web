@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Alert, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 
-import { collection, addDoc, setDoc } from "firebase/firestore"; 
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"; 
 import { db } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 
-
-
-
 import AppLayout from "../layout/AppLayout"
 import PriceField from "../elements/PriceField";
+import Locationfield from "../elements/LocationField";
+import CategorySelector from "../elements/CategorySelector";
 import RichTextEditor from "../richtextEditor/RichTextEditor";
 import ImageUploader from "../imageUploader/ImageUploader";
 
@@ -19,6 +18,10 @@ const CreateAd = () => {
   const [adId, setAdId] = useState(""); 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [state, setState] = useState("");
+  const [region, setRegion] = useState("");
+  const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(""); 
   const [formState, setFormState] = useState("edit"); 
@@ -33,9 +36,14 @@ const CreateAd = () => {
 
     try {
       const docRef = await addDoc(collection(db, "ads"), {
+        createdAt: serverTimestamp(),
         uid: user.uid,
         title: title,
         price: price,
+        state: state,
+        region: region,
+        category: category,
+        subCategory: subCategory,
         description: description
       });
       setAdId(docRef.id);
@@ -45,14 +53,18 @@ const CreateAd = () => {
     }
   }
 
-    // Redirect to dashboard if form submission is complete
-    useEffect(() => {
-      if(formState === "complete"){
-        navigate("/dashboard");
-      }
-    }, [formState]) 
+  // Redirect to dashboard if form submission is complete
+  useEffect(() => {
+    if(formState === "complete"){
+      navigate("/dashboard");
+    }
+  }, [formState]) 
 
   const updateFormState = newFormState => setFormState(newFormState)
+  const updateLocation = getLocationtion => {
+    setState(getLocationtion.state)
+    setRegion(getLocationtion.id)
+  }
   const updateDescription = getDescription => setDescription(getDescription)
 
   return(
@@ -72,6 +84,7 @@ const CreateAd = () => {
           {error && <Alert severity="error">{error}</Alert>}
           <form onSubmit={handleSubmit}>
             <TextField 
+              autoFocus
               id="title" 
               type="text" 
               label="Title" 
@@ -85,6 +98,13 @@ const CreateAd = () => {
             <PriceField 
               price={price}
               setPrice={setPrice}
+            />
+            <Locationfield updateLocation={updateLocation}/>
+            <CategorySelector 
+              category={category} 
+              setCategory={setCategory}
+              subCategory={subCategory} 
+              setSubCategory={setSubCategory}
             />
             <Typography 
               color="text.secondary"

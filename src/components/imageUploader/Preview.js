@@ -8,7 +8,7 @@ const Preview = ({image, id, remove}) => {
   return(
     <Grid 
       item 
-      xs={2} 
+      xs={3} 
       md={2}
     >
       <Box

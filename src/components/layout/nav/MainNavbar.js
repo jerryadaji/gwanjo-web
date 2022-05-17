@@ -1,7 +1,7 @@
 import { useUserAuth } from "../../../context/UserAuthContext";
-
-import { Button, Container, Link, Typography } from '@mui/material';
 import AccountMenu from "./AccountMenu";
+import LocationModal from "../../elements/modals/LocationModal";
+import { Box, Button, Container, Link, Typography } from '@mui/material';
 
 const MainNavbar = () => {
   let { user } = useUserAuth();
@@ -10,21 +10,30 @@ const MainNavbar = () => {
     <div className="main-nav-wrapper">
       <Container maxWidth="lg">
         <div className="main-nav">
-          <Link href="/" sx={{mr: 3, textDecoration: "none"}}>
-            <Typography 
-              gutterBottom 
-              variant="h4" 
-              component="div"
-              sx={{
-                color: 'primary',
-                fontWeight: 700,
-                fontSize: '1.75rem',
-                mb: 0
-              }}
-            >
-                gwanjo
-            </Typography>
-          </Link>
+          <Box
+            sx={{
+              alignItems: "center",
+              display: "flex",
+              justifyContent: "flex-start"
+            }}
+          >
+            <Link href="/" sx={{mr: 1, textDecoration: "none"}}>
+              <Typography 
+                gutterBottom 
+                variant="h4" 
+                component="div"
+                sx={{
+                  color: 'primary',
+                  fontWeight: 700,
+                  fontSize: '1.75rem',
+                  mb: 0
+                }}
+              >
+                  Gwanjo
+              </Typography>
+            </Link>
+            <LocationModal />
+          </Box>
           <div className="text-right">      
             { !user && <AuthButtons /> }
             <Button 

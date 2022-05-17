@@ -19,6 +19,8 @@ import EditAd from "./components/user/EditAd"
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ScrollToTop from "./components/ScrollToTop"
+import CategoryPage from "./components/categoryPage/CategoryPage"
+import { QueryStrings } from "./context/QuerString"
 
 
 const theme = createTheme({
@@ -36,31 +38,34 @@ const theme = createTheme({
 
 function App() {
   return (
-    <UserAuthContextProvider>
-      <AdContextProvider>
-      <ThemeProvider theme={theme}>
-        <ScrollToTop>
-          <Routes>
-            <Route path="/" element={ <Home/> }/>
-            <Route path="login" element={ <Login/> }/>
-            <Route path="signup" element={ <Signup />}/>
-            <Route path="forgot-password" element={ <ForgotPassword />}/>
+    <QueryStrings>
+      <UserAuthContextProvider>
+        <AdContextProvider>
+        <ThemeProvider theme={theme}>
+          <ScrollToTop>
+            <Routes>
+              <Route path="/" element={ <Home/> }/>
+              <Route path="login" element={ <Login/> }/>
+              <Route path="signup" element={ <Signup />}/>
+              <Route path="forgot-password" element={ <ForgotPassword />}/>
 
-            <Route path="change-password" element={ <ProtectedRoute><NewPassword/></ProtectedRoute> } />
+              <Route path="change-password" element={ <ProtectedRoute><NewPassword/></ProtectedRoute> } />
 
-            <Route path="dashboard" element={ <ProtectedRoute><Dashboard/></ProtectedRoute> } />
-            <Route path="settings" element={ <ProtectedRoute><Settings/></ProtectedRoute> } />
-            <Route path="create-ad" element={ <ProtectedRoute><CreateAd/></ProtectedRoute> } />
-            <Route path="edit-ad/:adId" element={ <ProtectedRoute><EditAd /></ProtectedRoute> } />
+              <Route path="dashboard" element={ <ProtectedRoute><Dashboard/></ProtectedRoute> } />
+              <Route path="settings" element={ <ProtectedRoute><Settings/></ProtectedRoute> } />
+              <Route path="create-ad" element={ <ProtectedRoute><CreateAd/></ProtectedRoute> } />
+              <Route path="edit-ad/:adId" element={ <ProtectedRoute><EditAd /></ProtectedRoute> } />
 
-            <Route path="ad/:adId" element={ <Ad /> } />
-            
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>    
-          </ScrollToTop>
-        </ThemeProvider>
-      </AdContextProvider>
-    </UserAuthContextProvider>
+              <Route path="ad/:adId" element={ <Ad /> } />
+              <Route path=":categorySlug" element={ <CategoryPage /> } />
+              
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>    
+            </ScrollToTop>
+          </ThemeProvider>
+        </AdContextProvider>
+      </UserAuthContextProvider>
+    </QueryStrings>
   );
 }
 

@@ -12,26 +12,30 @@ const UserAdList = () => {
 
 
 
+  
   useEffect(() => {
+    let unsubscribe;
+
     const getAds = async () => {
       try{
         const q = query(collection(db, "ads"), where("uid", "==", user.uid));
-
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const cities = [];
+  
+        unsubscribe = onSnapshot(q, (querySnapshot) => {
           const data = querySnapshot.docs.map(doc => {
-            return {id: doc.id, ...doc.data()}
+            let data = doc.data()
+            return {id: doc.id, ...data, createdAt: data.createdAt ? data.createdAt.toMillis() : 0 }
           });
+          data.sort( function(a, b){return a.createdAt - b.createdAt} )
           setAds(data)
         });
-
-
       } catch(err) {
         console.log(err)
       }
     }
-
+  
     getAds()
+
+    return unsubscribe
   }, []);
 
   if( ads === "" ){
