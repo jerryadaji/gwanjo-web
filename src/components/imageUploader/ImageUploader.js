@@ -88,6 +88,9 @@ const ImageUploader = ({ formState, updateFormState, adId }) => {
 
   // Upload local images
   const handleUpload = () => {
+    // Set form state to upload
+    updateFormState("upload")
+
     const promises = [];
 
     images.map((image, index) => {
@@ -112,7 +115,7 @@ const ImageUploader = ({ formState, updateFormState, adId }) => {
         () => {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            //updateFormState("upload_complete")
+            updateFormState("upload_complete")
           });
         }
       );

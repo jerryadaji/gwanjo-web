@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from "firebase/firestore"; 
+import { collection, getDocs, query, Timestamp, where } from "firebase/firestore"; 
 import { useContext, useEffect, useState } from "react";
 import { db } from "../../firebase"
 import Loader from "../Loader";
@@ -34,11 +34,8 @@ const AdList = ({ hasQuery, subCategory }) => {
   }
   
   const sortBy = ( data, value ) => {
-    //const filteredData = data.filter( item => item.price <= Number(value) )
-    //return filteredData;
-
     if( value === "date_published" || value === "" ){
-
+      data.sort( function(a, b){return a.createdAt - b.createdAt} )
     }
 
     if( value === "price_low_to_high" ){
@@ -49,7 +46,6 @@ const AdList = ({ hasQuery, subCategory }) => {
       data.sort( function(a, b){return b.price - a.price} )
     }
 
-    console.log(data)
     return data
   }
 
@@ -76,7 +72,6 @@ const AdList = ({ hasQuery, subCategory }) => {
     
     return paged
   }
-
 
   // multiplier
   const multiplier = ( data, number ) => {
@@ -111,8 +106,8 @@ const AdList = ({ hasQuery, subCategory }) => {
 
           const querySnapshot = await getDocs(q);
           const data = querySnapshot.docs.map(doc => {
-            console.log(doc.createTime)
-            return {id: doc.id, ...doc.data()}
+            let data = doc.data()
+            return {id: doc.id, ...data, createdAt: data.createdAt ? data.createdAt.toMillis() : 0 }
           });
 
           if(data.length > 0){
@@ -191,7 +186,7 @@ const AdList = ({ hasQuery, subCategory }) => {
           </Box>
           }
         <Grid container spacing={2}>
-          {ads.map((ad, index) => <Ad key={index} data={ad} isMine={false} />)}
+          {ads.map((ad, index) => <Ad key={ad.id} data={ad} isMine={false} />)}
         </Grid>
         { (adCount > maxAdsOnPage) && <Pagination count={adCount} maxAdsOnPage={maxAdsOnPage} /> }
       </>

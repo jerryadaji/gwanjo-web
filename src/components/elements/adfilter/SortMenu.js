@@ -109,7 +109,7 @@ const SortMenu = () => {
                 Price: Low to High
               </>
             }
-            { value !== "price_low_to_high" && <ListItemText inset>Price: High to Low</ListItemText> }
+            { value !== "price_low_to_high" && <ListItemText inset>Price: Low to High</ListItemText> }
           </MenuItem>
           <MenuItem onClick={() => handleSelection("price_high_to_low")}>
             { value === "price_high_to_low" &&

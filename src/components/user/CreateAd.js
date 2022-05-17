@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Alert, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 
-import { collection, addDoc, setDoc } from "firebase/firestore"; 
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"; 
 import { db } from "../../firebase";
 import { useUserAuth } from "../../context/UserAuthContext";
 
@@ -36,6 +36,7 @@ const CreateAd = () => {
 
     try {
       const docRef = await addDoc(collection(db, "ads"), {
+        createdAt: serverTimestamp(),
         uid: user.uid,
         title: title,
         price: price,
@@ -52,12 +53,12 @@ const CreateAd = () => {
     }
   }
 
-    // Redirect to dashboard if form submission is complete
-    useEffect(() => {
-      if(formState === "complete"){
-        navigate("/dashboard");
-      }
-    }, [formState]) 
+  // Redirect to dashboard if form submission is complete
+  useEffect(() => {
+    if(formState === "complete"){
+      navigate("/dashboard");
+    }
+  }, [formState]) 
 
   const updateFormState = newFormState => setFormState(newFormState)
   const updateLocation = getLocationtion => {
