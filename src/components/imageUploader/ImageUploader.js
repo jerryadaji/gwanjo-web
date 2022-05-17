@@ -89,7 +89,10 @@ const ImageUploader = ({ formState, updateFormState, adId }) => {
   // Upload local images
   const handleUpload = () => {
     // Set form state to upload
-    updateFormState("upload")
+    if(images.length < 1){
+      updateFormState("complete")
+      return
+    } 
 
     const promises = [];
 
@@ -114,9 +117,7 @@ const ImageUploader = ({ formState, updateFormState, adId }) => {
         },
         () => {
           // Upload completed successfully, now we can get the download URL
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            updateFormState("upload_complete")
-          });
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {});
         }
       );
     });
@@ -124,6 +125,7 @@ const ImageUploader = ({ formState, updateFormState, adId }) => {
     Promise.all(promises)
       .then(() => updateFormState("complete"))
       .catch((err) => setError("Something went wrong with adding images. Try again."));
+    return
   };
 
   /* 
