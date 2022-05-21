@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, doc, setDoc } from "firebase/firestore"; 
 import { db } from "../../firebase"
 import GoogleButton from "react-google-button";
 import AuthLayout from "../layout/AuthLayout";
@@ -39,10 +39,12 @@ function Signup() {
     try{
       const newUserRef =  await signUp(email, password);
       
-      await addDoc(collection(db, "users"), {
-        uid: newUserRef.user.uid,
-        email: newUserRef.user.email
-      });
+      const data = {
+        creationTime: newUserRef.user.metadata.creationTime,
+        status: "pending",
+      }
+
+      await setDoc(doc(db, "users", newUserRef.user.uid), data);
       
       navigate('/login')
     } catch(err) {

@@ -21,6 +21,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ScrollToTop from "./components/ScrollToTop"
 import CategoryPage from "./components/categoryPage/CategoryPage"
 import { QueryStrings } from "./context/QuerString"
+import UserDetailsForm from "./components/user/UserDetailsForm"
 
 
 const theme = createTheme({
@@ -52,7 +53,7 @@ function App() {
               <Route path="change-password" element={ <ProtectedRoute><NewPassword/></ProtectedRoute> } />
 
               <Route path="dashboard" element={ <ProtectedRoute><Dashboard/></ProtectedRoute> } />
-              <Route path="settings" element={ <ProtectedRoute><Settings/></ProtectedRoute> } />
+              <Route path="user-details" element={ <ProtectedRoute><UserDetailsForm/></ProtectedRoute> } />
               <Route path="create-ad" element={ <ProtectedRoute><CreateAd/></ProtectedRoute> } />
               <Route path="edit-ad/:adId" element={ <ProtectedRoute><EditAd /></ProtectedRoute> } />
 

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore"; 
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,12 +7,10 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
-  sendEmailVerification,
-  updatePasswordx,
   updatePassword,
   sendPasswordResetEmail
 } from "firebase/auth"
-import { auth } from "../firebase"
+import { auth, db } from "../firebase"
 
 const userAuthContext = createContext();
 
@@ -49,7 +48,25 @@ export function UserAuthContextProvider({children}){
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser)
+      // Get user meta
+      const getUserMeta = async () =>{
+        if(currentUser){
+          const docRef = doc(db, "users", currentUser.uid);
+          const docSnap = await getDoc(docRef);
+
+          if(docSnap.exists()){
+            const userMeta = docSnap.data()
+            currentUser = {...currentUser, data: userMeta}
+            setUser(currentUser)
+          } else {
+            setUser({ ...currentUser, data: {status: "pending"} })
+          }
+        } else {
+          setUser(currentUser)
+        }
+      }
+
+      getUserMeta()
     })
     return () => {
       unsubscribe()

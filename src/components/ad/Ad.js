@@ -37,20 +37,6 @@ const  Ad = () => {
       <PageNotFound/>
     )
   } else {
-    // Get poster information from Uesrs array
-    const getPoster = async () =>{
-      try{
-        if(users){
-          const found = await users.find(user => user.uid === ad.uid);
-          setPoster(found)
-        }
-      }catch(err){
-        console.log(err)
-      }
-    }
-
-    getPoster()
-
     return(
       <AppLayout>
         <Grid container spacing={4}>
@@ -59,7 +45,7 @@ const  Ad = () => {
           </Grid>
           <Grid item xs={12} md={3}>
             <AdInfo ad={ad} poster={poster}/>
-            <PosterInfo poster={poster}/>
+            <PosterInfo posterId={ad.uid}/>
           </Grid>
         </Grid>
 
@@ -73,8 +59,6 @@ const  Ad = () => {
             </Grid>
           </Grid>
         </Grid>
-
-        
       </AppLayout>
     )
   }

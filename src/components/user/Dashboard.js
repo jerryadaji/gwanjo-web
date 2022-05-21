@@ -1,13 +1,13 @@
 import { Grid, Link, Typography } from "@mui/material";
 import React from "react";
 import { useUserAuth } from "../../context/UserAuthContext";
-import PosterInfo from "../ad/page/PosterInfo";
+import UserProfile from "../elements/widgets/UserProfile";
 import AppLayout from "../layout/AppLayout";
 import UserAdList from "./UserAdList";
 
 const  Dashboard = () => {
   let { user } = useUserAuth();
-  
+
   return(
 		<AppLayout>
       <Typography 
@@ -19,14 +19,7 @@ const  Dashboard = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
-          <PosterInfo poster={user}/>
-          <Typography component={"p"}>{user && user.email}</Typography>
-          <Typography component={"p"}>
-            <Link href="/settings">Setting</Link>
-          </Typography>
-          <Typography component={"p"}>
-            <Link href="/forgot-password">Change Password</Link>
-          </Typography>
+          <UserProfile user={{...user.data, ...user.metadata}} />
         </Grid>
         <Grid item xs={12} md={8}>
           <UserAdList/>
