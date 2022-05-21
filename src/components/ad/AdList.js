@@ -35,7 +35,7 @@ const AdList = ({ hasQuery, subCategory }) => {
   
   const sortBy = ( data, value ) => {
     if( value === "date_published" || value === "" ){
-      data.sort( function(a, b){return a.createdAt - b.createdAt} )
+      data.sort( function(a, b){return b.createdAt - a.createdAt} )
     }
 
     if( value === "price_low_to_high" ){

@@ -16,7 +16,7 @@ const  Home = () => {
           mb: 4
         }}
       >
-        Buy anything, from anywhere
+        Buy & Sell anything, from anywhere
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
