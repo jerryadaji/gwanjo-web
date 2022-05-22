@@ -9,17 +9,17 @@
   overflow: hidden !important;
   position: relative;
   width: 100% !important;
+}
 
-  &:hover{
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 6px 0px !important;
-  }
+.google-button::hover{
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 6px 0px !important;
+}
 
-  div{
-    left: 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+.google-button div{
+  left: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .button-divider{
