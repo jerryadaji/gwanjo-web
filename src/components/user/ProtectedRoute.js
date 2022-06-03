@@ -16,7 +16,7 @@ const  ProtectedRoute = ({children}) => {
   }, [user])
 
   // show loading component
-  if( user === "" || userStatus === "" ){
+  if( user === "" || (user && userStatus === "") ){
     return (
       <Loader/>
     )

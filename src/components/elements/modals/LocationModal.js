@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import locationsData from '../../../data/locationsData';
 import Locationfield from '../LocationField';
+import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -48,6 +49,17 @@ const LocationModal = ({ action, data, image }) => {
     window.location.reload();
   };
 
+  const Root = styled('div')(({ theme }) => ({
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "space-between",
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
+    [theme.breakpoints.up('md')]: {
+      padding: '0',
+    },
+  }));
+
   return(
    <>
     <Typography 
@@ -57,15 +69,15 @@ const LocationModal = ({ action, data, image }) => {
       onClick={handleClickOpen}
       variant="body2" 
       sx={{
-        alignItems: "center",
         cursor: "pointer",
-        display: "flex",
         fontWeight: "medium",
         mb: 0,
       }}
     >
-      in {userLocation.region ?? "Nigeria"}
-      <KeyboardArrowDownOutlinedIcon fontSize="inherit"/>
+      <Root>
+        in {userLocation.region ?? "Nigeria"}
+        <KeyboardArrowDownOutlinedIcon fontSize="inherit"/>
+      </Root>
     </Typography>
     <Dialog
       open={open}
