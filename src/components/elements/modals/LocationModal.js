@@ -61,6 +61,7 @@ const LocationModal = ({ action, data, image }) => {
         cursor: "pointer",
         display: "flex",
         fontWeight: "medium",
+        justifyContent: "space-between",
         mb: 0,
       }}
     >

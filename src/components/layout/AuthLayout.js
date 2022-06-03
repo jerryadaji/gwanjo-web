@@ -1,6 +1,14 @@
+import { styled } from '@mui/material/styles';
 import { Container } from '@mui/material';
 import Footer from './Footer';
 import MainNavbar from "./nav/MainNavbar";
+
+const Root = styled('div')(({ theme }) => ({
+  marginTop: '2rem',
+  [theme.breakpoints.up('sm')]: {
+    marginTop: '7.25rem',
+  },
+}));
 
 const  AuthLayout = ({children, className}) => {
   return(
@@ -8,13 +16,11 @@ const  AuthLayout = ({children, className}) => {
       <MainNavbar/>
       <Container 
         maxWidth="xs"
-        sx={{
-          pt: '4rem',
-          minHeight: "calc(100vh - 8rem)",
-          mt: 4
-        }}
+        sx={{ minHeight: "calc(100vh - 8rem)" }}
       >
-        {children}
+        <Root>
+          {children}
+        </Root>
       </Container>
       <Footer/>
     </>
