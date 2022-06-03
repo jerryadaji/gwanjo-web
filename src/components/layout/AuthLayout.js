@@ -5,7 +5,7 @@ import MainNavbar from "./nav/MainNavbar";
 
 const Root = styled('div')(({ theme }) => ({
   marginTop: '2rem',
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up('md')]: {
     marginTop: '7.25rem',
   },
 }));

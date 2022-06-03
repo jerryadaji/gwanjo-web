@@ -11,7 +11,7 @@ const MainNavbar = () => {
 
   return(
     <>
-      <Box bgcolor="secondary.light" display={{ xs: "block", sm: "none" }}>
+      <Box bgcolor="secondary.light" display={{ xs: "block", sm: "block", md: "none" }}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -52,7 +52,7 @@ const MainNavbar = () => {
                     Gwanjo
                 </Typography>
               </Link>
-              <Box display={{ xs: "none", sm: "block", md: "block" }}>
+              <Box display={{ xs: "none", md: "block" }}>
                 <LocationModal />
               </Box>
             </Box>
